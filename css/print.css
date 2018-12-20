@@ -1,0 +1,6 @@
+div#buttons {
+    display: none !important;
+}
+header.mdl-layout__header {
+    display: none !important;
+}

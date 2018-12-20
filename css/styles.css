@@ -1,0 +1,27 @@
+.mdl-textfield {
+	width: 150px;
+}
+form#add_protocol input.mdl-textfield {
+	width: 300px;
+}
+div.small_whith {
+	width: 30px !important;
+}
+.mdl-button {
+    margin-top: 5px !important;
+}
+.to-center {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+.page-content {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 64px);
+}
+.main-content {
+    flex: 1;
+}
+body {
+    position: relative;
+}
