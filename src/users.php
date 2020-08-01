@@ -54,7 +54,7 @@ try {
                 <tbody>
                 <?php foreach ($users as $key => $value) { ?>
                     <tr>
-                        <td><a href="./user.php?user_id=<?php echo $value['id'] ?>"><?php echo $value['id'] ?></a></td>
+                        <td><a href="user.php?user_id=<?php echo $value['id'] ?>"><?php echo $value['id'] ?></a></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['full_name'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['role'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric">

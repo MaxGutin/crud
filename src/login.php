@@ -1,7 +1,6 @@
 <?php
 require_once 'includes/db.php';
 require_once 'includes/secure.php';
-//tester($_SESSION);
 if ( isset($_POST['do-login']) )
 {
     try
@@ -56,7 +55,7 @@ if ( isset($_POST['do-login']) )
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation mdl-layout--large-screen-only">
                 <a class="mdl-navigation__link" href="/">На главную</a>
-                <a class="mdl-navigation__link" href="./users.php">Пользователи</a>
+                <a class="mdl-navigation__link" href="users.php">Пользователи</a>
             </nav>
         </div>
     </header>
@@ -64,8 +63,8 @@ if ( isset($_POST['do-login']) )
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">PHP CRUD DEMO</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="../">На главную</a>
-            <a class="mdl-navigation__link" href="./users.php">Пользователи</a>
+            <a class="mdl-navigation__link" href="../..">На главную</a>
+            <a class="mdl-navigation__link" href="users.php">Пользователи</a>
         </nav>
     </div>
     <main class="mdl-layout__content">
