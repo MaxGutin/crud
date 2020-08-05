@@ -1,22 +1,29 @@
 <?php
-//todo Сделай проверку на пользователя
-require_once 'includes/db.php';
+// todo Сделай проверку на пользователя
+require_once 'includes/secure.php';
 
-if (isset($_POST['abort'])) {
-    header('Location: ./users.php');
-}
-try {
-    if (isset($_REQUEST['add_user'])) {
-        $stmt = $pdo->prepare(SQL_INSERT_USER);
+if (isset($_POST['abort'])) header('Location: ./singin.php'); // если нажали Отмена по отправляем на страницу входа
+try
+{
+    if (isset($_REQUEST['add_user'])) // если нажали кнопку Зарегистрировать, то ...
+    {
+        $stmt = $pdo->prepare(SQL_INSERT_USER); // сохраняем данные из формы в БД
         $stmt->execute([
             $_POST['role'],
             $_POST['full_name'],
             $_POST['login'],
             $_POST['password']
         ]);
-        header('Location: ./users.php?msg=user_saved');
+        // и открываем сессию
+        $user = array( // создаём массив с данныи пользователя ...
+            'login' => $_POST['login'],
+            'password' => $_POST['password']
+        );
+        $_SESSION['logged_user'] = $user; // ... и сохраняем его в куки
+        header('Location: ./users.php?msg=user_saved'); // перенаправляем на список пользователей
     }
-} catch (PDOException $e) {
+}
+catch (PDOException $e){
     echo $e->getMessage();
 }
 ?>
@@ -35,7 +42,7 @@ try {
 
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add_user">Сохранить</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add_user">Зарегистрировать</button>
         <button class="mdl-button mdl-js-button mdl-button--raised" type="reset" form="add_user">Очистить</button>
 <!--        <button class="mdl-button mdl-js-button mdl-button--raised" type="submit" form="add_user" name="abort">Отмена</button>-->
         <a class="mdl-button mdl-js-button mdl-button--raised" href="users.php" name="abort">Отмена</a>

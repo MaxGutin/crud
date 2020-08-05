@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/db.php';
+require_once 'db.php';
 session_start();
 
 // Logout function
@@ -10,20 +10,23 @@ if ( isset($_REQUEST['logout']) ) {
 } /* else echo 'FAIL LOGOUT!';*/
 
 // Checking to login session
-$loginPageAddress = substr($_SERVER['SCRIPT_NAME'], -9, 9);
-if ( $loginPageAddress !== 'login.php' ) {
-//  URL no login.php
-    try {
+$loginPageAddress = substr($_SERVER['SCRIPT_NAME'], -10, 10); // читаем последние 10 символов URL (singin.php)
+if ( $loginPageAddress !== 'singin.php' and $loginPageAddress !== 'singup.php' ) //  если мы не на странице авторизации или регистрации, то ...
+{
+    try
+    {
         $stmt = $pdo->prepare(SQL_LOGIN);
         $stmt->bindParam(':login', $_SESSION['logged_user']['login']);
         $stmt->bindParam(':password', $_SESSION['logged_user']['password']);
         $result = $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ( !$user ) {
-//          echo 'Сессия не активна!';
-            header('Location: login.php');
+        if ( !$user )
+        {
+            header('Location: singin.php?log-err');
         }
-    } catch (PDOException $e) {
+    }
+    catch (PDOException $e)
+    {
         echo $e->getMessage();
     }
 }

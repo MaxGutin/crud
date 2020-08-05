@@ -1,7 +1,7 @@
 <?php
-$dsn = 'mysql:dbname=gutin_ru;host=localhost';
+$dsn = 'mysql:dbname=crud;host=localhost';
 $db_user = 'root';
-$db_password = '';
+$db_password = 'root';
 try {
     $pdo = new PDO($dsn, $db_user, $db_password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -11,7 +11,7 @@ try {
 }
 
 // Тестировщики
-function tester($a)
+function tester1($a)
 {
     echo "<pre>";
     print_r($a);
@@ -62,4 +62,4 @@ const SQL_UPDATE_USER_BY_ID = '
       id = :id
 ';
 
-//const SQL_DELETE_USER = 'DELETE FROM users WHERE id = :id';
+const SQL_DELETE_USER = 'DELETE FROM users WHERE id = :id';

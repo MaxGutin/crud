@@ -1,18 +1,21 @@
 <?php
-require_once 'includes/db.php';
 require_once 'includes/secure.php';
 require_once 'includes/messages.php';
-try {
-    if ( isset($_GET['delete_user']) ) {
-/*        $stmt = $pdo->prepare(SQL_DELETE_USER);
+
+try
+{
+    if ( isset($_GET['delete_user']) )
+    {
+        $stmt = $pdo->prepare(SQL_DELETE_USER);
         $stmt->bindParam(':id', $_GET['user_id']);
         $stmt->execute();
-        echo "<p>Пользователь удалён из базы данных!</p><hr>";*/
-        echo 'Вы не можете удалять пользователей!';
+        echo "<p>Пользователь удалён из базы данных!</p><hr>";
     }
     $stmt = $pdo->query(SQL_GET_USERS);
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
+}
+catch (PDOException $e)
+{
     echo $e->getMessage();
 }
 ?>
