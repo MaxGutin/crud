@@ -1,13 +1,12 @@
 <?php
-$dsn = 'mysql:dbname=crud;host=localhost';
+$dsn = 'mysql:dbname=crud;host=localhost'; // Создаём переменные с данными для подключения.
 $db_user = 'root';
 $db_password = 'root';
 try {
-    $pdo = new PDO($dsn, $db_user, $db_password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+    $pdo = new PDO($dsn, $db_user, $db_password); // Инициализируем объект PDO и вставляем данные для подключения
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Настраиваем обработку ошибок
 } catch (PDOException $e) {
-    print 'Error connection: ' . $e->getMessage();
+    print 'Error connection: ' . $e->getMessage(); // выводим ошибки подключения
 }
 
 // Тестировщики

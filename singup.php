@@ -51,7 +51,7 @@ catch (PDOException $e){
 <article class="mdl-grid main-content">
     <div class="mdl-cell mdl-cell--12-col">
 
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="add_user">
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="add_user" enctype="multipart/form-data">
             <p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <select  class="mdl-textfield__input" name="role" id="role" required>
