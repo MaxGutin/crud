@@ -1,5 +1,5 @@
 <?php
-require 'includes/db.php';
+require_once 'includes/db.php';
 require_once 'includes/secure.php';
 try {
     if ( isset($_GET['delete_user']) ) {
@@ -45,7 +45,6 @@ try {
             <p><span>Роль: </span><span><?php echo $user['role'] ?></span></p>
             <p><span>Имя: </span><span><?php echo $user['full_name'] ?></span></p>
             <p><span>Логин: </span><span><?php echo $user['login'] ?></span></p>
-            <p><span>Пароль: </span><span><?php echo $user['password'] ?></span></p>
         </div>
     </article>
 </article>

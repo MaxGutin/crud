@@ -1,30 +1,76 @@
 <?php
-// todo Сделай проверку на пользователя
+require_once 'includes/db.php';
 require_once 'includes/secure.php';
 
-if (isset($_POST['abort'])) header('Location: ./singin.php'); // если нажали Отмена по отправляем на страницу входа
-try
-{
-    if (isset($_REQUEST['add_user'])) // если нажали кнопку Зарегистрировать, то ...
-    {
-        $stmt = $pdo->prepare(SQL_INSERT_USER); // сохраняем данные из формы в БД
-        $stmt->execute([
-            $_POST['role'],
-            $_POST['full_name'],
-            $_POST['login'],
-            $_POST['password']
-        ]);
-        // и открываем сессию
-        $user = array( // создаём массив с данныи пользователя ...
+
+// если нажали кнопку Отмена то отправляем на страницу входа
+if (isset($_POST['abort'])) header('Location: ./singin.php');
+
+
+// если нажали кнопку Зарегистрировать, то ...
+if (isset($_REQUEST['add_user'])) {
+    try { // перехват исключений
+
+
+        // переносим данные формы в массив
+        $form_data = array(
+            'role' => $_POST['role'],
+            'full_name' => $_POST['full_name'],
             'login' => $_POST['login'],
+            'email' => $_POST['email'],
             'password' => $_POST['password']
         );
-        $_SESSION['logged_user'] = $user; // ... и сохраняем его в куки
-        header('Location: ./users.php?msg=user_saved'); // перенаправляем на список пользователей
+
+
+        // солёное хеширование пароля
+        try {
+            $form_data['password'] = password_hash($form_data['password'], PASSWORD_DEFAULT);
+        } catch (Exception $e) {
+            echo 'HASH ERROR: ' . $e->getMessage();
+        }
+
+
+        // Валидация
+        $mail_verify = filter_var($form_data['email'], FILTER_VALIDATE_EMAIL);
+        if ($mail_verify == false) header('Location: ./users.php?msg=email_err');;
+
+        $stmt = $pdo->prepare(SQL_LOGIN); // prepare — Подготавливает SQL-запрос к выполнению
+        $stmt->bindParam(':login', $form_data['login']); // bindParam — Привязывает параметр SQL-запроса к POST-переменной
+        $result = $stmt->execute(); // execute — Запускает подготовленный запрос на выполнение, сохраняем результат
+        $user = $stmt->fetch(PDO::FETCH_ASSOC); // fetch() - возвращает массив данных.
+        if (!$user) header('Location: ./users.php?msg=login_err');
+
+        // Добавить данные в БД
+        $stmt = $pdo->prepare(SQL_INSERT_USER); // подготавливаем запрос с данными
+        $stmt->execute(array_values($form_data)); // и отправляем его на выполтениние MySQL серверу
+
+        // открыть сессию
+        $_SESSION['logged_user'] = $form_data; // ... и сохраняем данные пользователя в куки
+
+        // отправка письма подтверждения
+        try {
+            $verify_code = random_bytes(20);
+            $to = $form_data['email'];
+            $subject = 'Подтверждение регистрации';
+            $message = $verify_code;
+            $headers = 'From: webmaster@goodman.com' . "\r\n" . 'Reply-To: webmaster@example.com';
+
+            $mail_result = mail($to, $subject, $message, $headers);
+
+        } catch (Exception $e) {
+            echo 'EMAIL VERIFICATION ERROR:';
+        }
+
+        // проверка отправки письма
+        if ($mail_result) {
+            // перенаправить на список пользователей
+            header('Location: ./users.php?msg=user_saved'); // перенаправляем на список пользователей
+        } else echo 'Ошибка отправки письма с кодом подтверждения.';
+
+
+    } catch (PDOException $e) {
+        echo 'PDO ERROR: ' . $e->getMessage();
     }
-}
-catch (PDOException $e){
-    echo $e->getMessage();
 }
 ?>
 <!DOCTYPE html>
@@ -55,7 +101,7 @@ catch (PDOException $e){
             <p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <select  class="mdl-textfield__input" name="role" id="role" required>
-                    <option value="user">user</option>
+                    <option value="user" selected>user</option>
                     <option value="manager">manager</option>
                 </select>
                 <label class="mdl-textfield__label" for="role">Роль...</label>
@@ -63,19 +109,29 @@ catch (PDOException $e){
             </p>
             <p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="full_name" name="full_name" required>
+                <input class="mdl-textfield__input" type="text" id="full_name" name="full_name"
+                       placeholder="<?= $form_data['full_name'] ?>" required>
                 <label class="mdl-textfield__label" for="full_name">Имя...</label>
             </div>
             </p>
             <p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="login" name="login" required>
+                <input class="mdl-textfield__input" type="text" id="login" name="login"
+                       placeholder="<?= $form_data['login'] ?>" required>
                 <label class="mdl-textfield__label" for="login">Логин...</label>
             </div>
             </p>
             <p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="password" id="password" name="password" required>
+                <input class="mdl-textfield__input" type="text" id="email" name="email"
+                       placeholder="<?= $form_data['email'] ?>"  required>
+                <label class="mdl-textfield__label" for="email">Почта...</label>
+            </div>
+            </p>
+            <p>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="password" id="password" name="password"
+                       placeholder="<?= $form_data['password'] ?>"  required>
                 <label class="mdl-textfield__label" for="password">Пароль...</label>
             </div>
             </p>

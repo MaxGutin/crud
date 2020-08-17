@@ -1,21 +1,20 @@
 <?php
+require_once 'includes/db.php';
 require_once 'includes/secure.php';
 require_once 'includes/messages.php';
 
-try
-{
-    if ( isset($_GET['delete_user']) )
-    {
+try {
+    // delete user
+    if (isset($_GET['delete_user'])) {
         $stmt = $pdo->prepare(SQL_DELETE_USER);
         $stmt->bindParam(':id', $_GET['user_id']);
         $stmt->execute();
         echo "<p>Пользователь удалён из базы данных!</p><hr>";
     }
+    // get user list
     $stmt = $pdo->query(SQL_GET_USERS);
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-catch (PDOException $e)
-{
+} catch (PDOException $e) {
     echo $e->getMessage();
 }
 ?>
@@ -34,7 +33,7 @@ catch (PDOException $e)
 
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-        <a href="adduser.php">
+        <a href="../adduser.php">
             <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                 <i class="material-icons">add</i>
             </button>
@@ -57,11 +56,11 @@ catch (PDOException $e)
                 <tbody>
                 <?php foreach ($users as $key => $value) { ?>
                     <tr>
-                        <td><a href="user.php?user_id=<?php echo $value['id'] ?>"><?php echo $value['id'] ?></a></td>
+                        <td><a href="../user.php?user_id=<?php echo $value['id'] ?>"><?php echo $value['id'] ?></a></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['full_name'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['role'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <a href="edituser.php?user_id=<?php echo $value['id'] ?>">
+                            <a href="../edituser.php?user_id=<?php echo $value['id'] ?>">
                                 <i class="material-icons">edit</i>
                             </a>
                         </td>

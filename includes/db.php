@@ -1,46 +1,48 @@
 <?php
-$dsn = 'mysql:dbname=crud;host=localhost'; // Создаём переменные с данными для подключения.
+$dsn = 'mysql:dbname=crud;host=localhost';
 $db_user = 'root';
 $db_password = 'root';
-try {
-    $pdo = new PDO($dsn, $db_user, $db_password); // Инициализируем объект PDO и вставляем данные для подключения
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Настраиваем обработку ошибок
-} catch (PDOException $e) {
-    print 'Error connection: ' . $e->getMessage(); // выводим ошибки подключения
+try {                                                                           // подключение перехвата исключений
+    $pdo = new PDO($dsn, $db_user, $db_password);                               // инициализация объекта PDO и вставка данных для подключения
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // настройка обработки ошибок
+} catch (PDOException $e) {                                                     // вывод исключений
+    print 'Error connection: ' . $e->getMessage();                              // вывод ошибок подключения
 }
 
 // Тестировщики
 function tester1($a)
 {
-    echo "<pre>";
-    print_r($a);
-    echo '</pre>';
+    if ($a) {
+        echo "<pre>" . print_r($a) . '</pre>';
+    } else echo '== UNDEFINED ==';
 }
 function tester2($a)
 {
-	echo "<pre>";
-	var_dump($a);
-	echo '</pre>';
+    if ($a) {
+        echo "<pre>" . var_dump($a) . '</pre>';
+    } else echo '== UNDEFINED ==';
 }
 
 // Константы с SQL выражениями
 const SQL_LOGIN = '
-    SELECT id, role, full_name, login, password FROM users WHERE login = :login AND password = :password
+    SELECT id, role, full_name, login, password FROM users WHERE login = :login
 ';
 
 const SQL_CREATE_USERS_TABLE = '
 	CREATE TABLE IF NOT EXISTS users (
 		id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+		active BOOLEAN NOT NULL DEFAULT \'0\',
 		role VARCHAR(50) NOT NULL,
 		full_name VARCHAR(255) NOT NULL,
-		login VARCHAR(50) NOT NULL,
+		login VARCHAR(50) NOT NULL UNIQUE,
+		email VARCHAR(255) NOT NULL,
 		password VARCHAR(50) NOT NULL,
 		PRIMARY KEY (id)
 	)
 ';
 
 const SQL_INSERT_USER = '
-    INSERT INTO users (role, full_name, login, password) VALUE (?,?,?,?)
+    INSERT INTO users (role, full_name, login, email, password) VALUE (?,?,?,?,?)
 ';
 
 const SQL_GET_USER = '

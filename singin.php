@@ -1,31 +1,5 @@
 <?php
-require_once 'includes/secure.php';
-if ( isset($_POST['do-login']) ) // Если в массиве POST есть do-login (тоесть пользователь нажал кнопку ВХОД) то выполнять следующий код
-{
-    try // перехватываем ошибки PDO (работы с БД)
-    {
-        $stmt = $pdo->prepare(SQL_LOGIN); // prepare — Подготавливает SQL-запрос к выполнению
-        $stmt->bindParam(':login', $_POST['login']); // bindParam — Привязывает параметр SQL-запроса к POST-переменной
-        $stmt->bindParam(':password', $_POST['password']);
-        $result = $stmt->execute(); // execute — Запускает подготовленный запрос на выполнение
-        $user = $stmt->fetch(PDO::FETCH_ASSOC); // fetch() - возвращает массив данных.
-        if ($user) // если массив не пустой, тоесть пользователь найден то выполняем следующий код
-        {
-            $_SESSION['logged_user'] = $user; // создаём сессию с именем 'logged_user' и сохраняем там данные пользователя
-            $loc = 'Location: user.php?user_id=' . $user['id']; // подготавливаем заголовок с ID пользователя
-            header("$loc"); // и перенаправляем на страницу пользователя
-        }
-        else // если пользователь не найден то выводим сообщение
-        {
-            echo "Пользователь не найден! Правильный логин: crud-demo; правильный пароль: crud-pass";
-        }
-
-    }
-    catch (PDOException $e) // выводим ошибки PDO (работы с БД)
-    {
-        echo '====CATCH=====: ' . $e->getMessage();
-    }
-}
+require_once 'includes/login.php';
 ?>
 <!DOCTYPE html>
 <html lang="ru">

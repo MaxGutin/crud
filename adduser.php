@@ -1,5 +1,5 @@
 <?php
-//todo Сделай проверку на пользователя
+//todo Сделай проверку на наличее логина в базе и добавь на страницу регистрации
 require_once 'includes/db.php';
 require_once 'includes/secure.php';
 
