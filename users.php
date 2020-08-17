@@ -1,6 +1,5 @@
 <?php
 require_once 'includes/db.php';
-session_start();
 require_once 'includes/secure.php';
 require_once 'includes/messages.php';
 try {

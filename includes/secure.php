@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Logout function
 if (isset($_REQUEST['logout'])) {
     $_SESSION = array();

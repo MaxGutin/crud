@@ -1,6 +1,5 @@
 <?php
 require_once 'includes/db.php';
-session_start();
 require_once 'includes/secure.php';
 try {
     if ( isset($_GET['delete_user']) ) {
