@@ -1,12 +1,13 @@
 <?php
 require_once 'includes/db.php';
+session_start();
 require_once 'includes/secure.php';
 try {
     if ( isset($_GET['delete_user']) ) {
         $stmt = $pdo->prepare(SQL_DELETE_USER);
         $stmt->bindParam(':id', $_GET['user_id']);
         $stmt->execute();
-        echo "<p>Пользователь удалён из базы данных!</p><hr>";
+        header('Location: ./users.php?msg=user_deleted');
     }
     if ( isset($_GET['abort']) ){
         header('Location: ./users.php');

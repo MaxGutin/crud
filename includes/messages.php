@@ -8,7 +8,7 @@ if (isset($_REQUEST['msg'])) {
             echo '<div class="message">Данные пользователя обновленны!</div>';
             break;
         case 'user_deleted' :
-            echo '<div class="message">Вы не можете удалять пользователей!</div>';
+            echo '<div class="message">Пользователь удалён!</div>';
             break;
     }
 }

@@ -1,6 +1,9 @@
 <?php
+session_start();
+if (isset($_SESSION['user']['id'])) {
+    header('Location: user.php?user_id=' . $_SESSION['user']['id']);
+}
 require_once 'includes/db.php';
-require_once 'includes/secure.php';
 
 
 // если нажали кнопку Отмена то отправляем на страницу входа

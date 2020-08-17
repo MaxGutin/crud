@@ -13,13 +13,17 @@ try {                                                                           
 function tester1($a)
 {
     if ($a) {
-        echo "<pre>" . print_r($a) . '</pre>';
+        echo "<pre>";
+        print_r($a);
+        echo '</pre>';
     } else echo '== UNDEFINED ==';
 }
 function tester2($a)
 {
     if ($a) {
-        echo "<pre>" . var_dump($a) . '</pre>';
+        echo "<pre>";
+        var_dump($a);
+        echo '</pre>';
     } else echo '== UNDEFINED ==';
 }
 
