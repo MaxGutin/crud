@@ -46,7 +46,7 @@ const SQL_CREATE_USERS_TABLE = '
 ';
 
 const SQL_INSERT_USER = '
-    INSERT INTO users (role, full_name, login, email, password) VALUE (?,?,?,?,?)
+    INSERT INTO users (full_name, login, email, password) VALUE (?,?,?,?)
 ';
 
 const SQL_GET_USER = '

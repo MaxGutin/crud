@@ -5,7 +5,7 @@ require_once 'includes/login.php';
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <?php include_once 'includes/statistics.html' ?>
+    <?php //include_once 'includes/statistics.html' ?>
     <title>Авторизация</title>
     <meta charset="UTF-8">
     <meta name="author" content="Максим Гутин">
