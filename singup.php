@@ -62,7 +62,7 @@ if (isset($_REQUEST['add_user'])) {
         }
 
         if (check_length($form_data['full_name'], 1, 255) OR check_length($form_data['login'], 1, 50) OR check_length($form_data['password'], 1, 64) OR $email_validate) {
-            exit('Длинна введённых данных не соответствует требованиям.');;
+            exit('Длинна введённых данных не соответствует требованиям.');
         }
         // Если валидация пройдена выполняем ется код ниже
 
@@ -150,7 +150,7 @@ if (isset($_REQUEST['add_user'])) {
 <article class="mdl-grid main-content">
     <div class="mdl-cell mdl-cell--12-col">
 
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="add_user" enctype="multipart/form-data">
+        <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" id="add_user" enctype="multipart/form-data">
             <p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="full_name" name="full_name" required>
@@ -165,7 +165,7 @@ if (isset($_REQUEST['add_user'])) {
             </p>
             <p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="email" name="email" required>
+                <input class="mdl-textfield__input" type="email" id="email" name="email" required>
                 <label class="mdl-textfield__label" for="email">Почта...</label>
             </div>
             </p>
@@ -178,7 +178,7 @@ if (isset($_REQUEST['add_user'])) {
             <p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="password" id="password_confirm" name="password_confirm" required>
-                <label class="mdl-textfield__label" for="password">Подтверждение пароля...</label>
+                <label class="mdl-textfield__label" for="password_confirm">Подтверждение пароля...</label>
             </div>
             </p>
         </form>

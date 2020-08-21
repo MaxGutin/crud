@@ -51,7 +51,7 @@ require_once 'includes/login.php';
                         <h2 class="mdl-card__title-text">Авторизация</h2>
                     </div>
                     <div class="mdl-card__supporting-text">
-                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                        <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                 <input class="mdl-textfield__input" type="text" id="login" name="login">
                                 <label class="mdl-textfield__label" for="login">Логин...</label>
