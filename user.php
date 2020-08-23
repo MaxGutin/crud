@@ -45,6 +45,7 @@ try {
             <p><span>Роль: </span><span><?php echo $user['role'] ?></span></p>
             <p><span>Имя: </span><span><?php echo $user['full_name'] ?></span></p>
             <p><span>Логин: </span><span><?php echo $user['login'] ?></span></p>
+            <p><span>эл. почта: </span><span><?php echo $user['email'] ?></span></p>
         </div>
     </article>
 </article>

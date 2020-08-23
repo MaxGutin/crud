@@ -36,11 +36,11 @@ const SQL_CREATE_USERS_TABLE = '
 	CREATE TABLE IF NOT EXISTS users (
 		id INT UNSIGNED AUTO_INCREMENT NOT NULL,
 		active BOOLEAN NOT NULL DEFAULT \'0\',
-		role VARCHAR(50) NOT NULL,
+		role VARCHAR(50) NOT NULL DEFAULT \'user\',
 		full_name VARCHAR(255) NOT NULL,
-		login VARCHAR(50) NOT NULL UNIQUE,
+		login VARCHAR(255) NOT NULL UNIQUE,
 		email VARCHAR(255) NOT NULL,
-		password VARCHAR(50) NOT NULL,
+		password VARCHAR(255) NOT NULL,
 		PRIMARY KEY (id)
 	)
 ';
@@ -50,7 +50,7 @@ const SQL_INSERT_USER = '
 ';
 
 const SQL_GET_USER = '
-    SELECT id, role, full_name, login, password FROM users WHERE id = :id
+    SELECT id, role, full_name, login, email, password FROM users WHERE id = :id
 ';
 
 const SQL_GET_USERS = '

@@ -16,7 +16,6 @@ if (isset($_REQUEST['add_user'])) {
     try { // перехват исключений
 
 
-
         // Проверка совпадения введёных паролей
         if ($_POST['password'] !== $_POST['password_confirm']) { // Пароли совпадают
             exit('Введённые пароли не совпали.');
@@ -34,18 +33,19 @@ if (isset($_REQUEST['add_user'])) {
 // Валидация
 
         // функция очистки данных от тегов
-        function clean($value) {
-            $value = trim($value);
-            $value = stripslashes($value);
-            $value = strip_tags($value);
-            $value = htmlspecialchars($value);
-            return $value;
+        function clean($array) {
+            foreach ($array as $key => $value) {
+                $value = trim($value);
+                $value = stripslashes($value);
+                $value = strip_tags($value);
+                $value = htmlspecialchars($value);
+                $array[$key] = $value;
+            }
+            return $array;
         }
 
         // пропускаем массив через функцию очистки
-        foreach ($form_data as &$value) {
-            $form_data[$value] = clean($form_data[$value]);
-        }
+        $form_data = clean($form_data);
 
         // проверка на пустые значения
         if(empty($form_data['full_name']) OR empty($form_data['login']) OR empty($form_data['email']) OR empty($form_data['password'])) {
@@ -57,66 +57,68 @@ if (isset($_REQUEST['add_user'])) {
 
         // Проверка длинны
         function check_length($value, $min, $max) {
-            $result = (mb_strlen($value) < $min || mb_strlen($value) > $max);
-            return !$result;
+            $length = strlen($value);
+            if ($length > $min AND $length < $max) {
+                $result = TRUE;
+            } else $result = FALSE;
+            return !$result;  // инвертирую значение для следующего условия
         }
 
-        if (check_length($form_data['full_name'], 1, 255) OR check_length($form_data['login'], 1, 50) OR check_length($form_data['password'], 1, 64) OR $email_validate) {
+        if (check_length($form_data['full_name'], 2, 255) OR check_length($form_data['login'], 2, 64) OR check_length($form_data['password'], 1, 64) OR !$email_validate) {
+            tester1($form_data);
             exit('Длинна введённых данных не соответствует требованиям.');
         }
-        // Если валидация пройдена выполняем ется код ниже
+        // Если валидация пройдена выполняется код ниже
 
 
         // проверка на занят ли логин
-        $stmt = $pdo->prepare(SQL_LOGIN);                            // prepare — Подготавливает SQL-запрос к выполнению
-        $stmt->bindParam(':login', $form_data['login']);    // bindParam — Привязывает значение переменной к параметру SQL-запроса
-        $result = $stmt->execute();                                           // execute — выполняет подготовленный запрос и возвращает результат
+        $stmt = $pdo->prepare(SQL_LOGIN);                              // prepare — Подготавливает SQL-запрос к выполнению
+        $stmt->bindParam(':login', $form_data['login']);      // bindParam — Привязывает значение переменной к параметру SQL-запроса
+        $result = $stmt->execute();                                             // execute — выполняет подготовленный запрос и возвращает результат
         $user_count = $stmt->rowCount();
 
 
-        if ($user_count < 1) {                                                // если логин не найден
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);                  // fetch() - возвращает массив данных.
+        if ($user_count > 0 ) {                                                 // если логин не найден
+            exit('Пользователь с таким логином уже существует!');               // завершаем работу скрипта
+        }
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);                    // fetch() - возвращает массив данных.
 
 
-            // солёное хеширование пароля
-            try {
-                $form_data['password'] = password_hash($form_data['password'], PASSWORD_DEFAULT);
-            } catch (Exception $e) {
-                echo 'HASH ERROR: ' . $e->getMessage();
-            }
+        // солёное хеширование пароля
+        try {
+            $form_data['password'] = password_hash($form_data['password'], PASSWORD_DEFAULT);
+        } catch (Exception $e) {
+            echo 'HASH ERROR: ' . $e->getMessage();
+        }
 
 
-            // Добавить данные в БД
-            $stmt = $pdo->prepare(SQL_INSERT_USER);        // подготавливаем запрос с данными
-            $stmt->execute(array_values($form_data));               // и отправляем его на выполтениние MySQL серверу
+        // Добавить данные в БД
+        $stmt = $pdo->prepare(SQL_INSERT_USER);        // подготавливаем запрос с данными
+        $stmt->execute(array_values($form_data));               // и отправляем его на выполтениние MySQL серверу
 
 
-            // открыть сессию
-            $_SESSION['user'] = $form_data;                         // ... и сохраняем данные пользователя в сессию
+        // открыть сессию
+        $_SESSION['user'] = $form_data;                         // ... и сохраняем данные пользователя в сессию
 
 
-            // отправка письма подтверждения
-            try {
-                $verify_code = random_bytes(20);
-                $to = $form_data['email'];
-                $subject = 'Подтверждение регистрации';
-                $message = $verify_code;
-                $headers = 'From: webmaster@goodman.com' . "\r\n" . 'Reply-To: webmaster@example.com';
+        // отправка письма подтверждения
+        try {
+            $verify_code = random_bytes(20);
+            $to = $form_data['email'];
+            $subject = 'Подтверждение регистрации';
+            $message = $verify_code;
+            $headers = 'From: webmaster@goodman.com' . "\r\n" . 'Reply-To: webmaster@example.com';
+            $mail_result = mail($to, $subject, $message, $headers);
+        } catch (Exception $e) {
+            echo 'EMAIL VERIFICATION ERROR:';
+        }
 
-                $mail_result = mail($to, $subject, $message, $headers);
-
-            } catch (Exception $e) {
-                echo 'EMAIL VERIFICATION ERROR:';
-            }
-
-            // проверка отправки письма
-            if ($mail_result) {
-                // перенаправить на список пользователей
-                header('Location: ./users.php?msg=user_saved'); // перенаправляем на список пользователей
-            } else echo 'Ошибка отправки письма с кодом подтверждения.';
-
-
-        } else echo 'Пользователь с таким логином уже существует!';
+        // проверка отправки письма
+        if ($mail_result) {
+            // перенаправить на список пользователей
+            header('Location: ./users.php?msg=user_saved'); // перенаправляем на список пользователей
+        } else echo 'Ошибка отправки письма с кодом подтверждения.';
 
 
 
