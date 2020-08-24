@@ -82,8 +82,6 @@ if (isset($_REQUEST['add_user'])) {
             exit('Пользователь с таким логином уже существует!');               // завершаем работу скрипта
         }
 
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);                    // fetch() - возвращает массив данных.
-
 
         // солёное хеширование пароля
         try {
@@ -91,6 +89,10 @@ if (isset($_REQUEST['add_user'])) {
         } catch (Exception $e) {
             echo 'HASH ERROR: ' . $e->getMessage();
         }
+
+        // генерация проверочного кода
+        $verify_code = md5(random_bytes(20));
+        $form_data['verify_code'] = $verify_code;
 
 
         // Добавить данные в БД
@@ -104,10 +106,10 @@ if (isset($_REQUEST['add_user'])) {
 
         // отправка письма подтверждения
         try {
-            $verify_code = random_bytes(20);
+            $verify_url = $_SERVER['HTTP_HOST'] . '/email_verify.php?' . $verify_code;
             $to = $form_data['email'];
             $subject = 'Подтверждение регистрации';
-            $message = $verify_code;
+            $message = 'Для активации вашего аккаунта нажмите на ссылку — ' . $verify_url;
             $headers = 'From: webmaster@goodman.com' . "\r\n" . 'Reply-To: webmaster@example.com';
             $mail_result = mail($to, $subject, $message, $headers);
         } catch (Exception $e) {
@@ -121,10 +123,10 @@ if (isset($_REQUEST['add_user'])) {
         } else echo 'Ошибка отправки письма с кодом подтверждения.';
 
 
-
-
     } catch (PDOException $e) {
         echo 'PDO ERROR: ' . $e->getMessage();
+    } catch (Exception $e) {
+        echo 'OTHER EXCEPTION: ' . $e->getMessage();
     }
 }
 ?>
