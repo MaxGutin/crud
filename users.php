@@ -55,7 +55,7 @@ try {
                 <tbody>
                 <?php foreach ($users as $key => $value) { ?>
                     <tr>
-                        <td><a href="user.php?user=<?php echo $value['login'] ?>"><?php echo $value['login'] ?></a></td>
+                        <td><a href="user.php?user=<?php echo $value['login'] ?>"><?php echo $value['login'] ?></a></td> <!-- todo make for admin -->
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['full_name'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['role'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric">

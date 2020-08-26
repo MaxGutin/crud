@@ -20,13 +20,13 @@ if ($_REQUEST) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);                  // rowCount() - возвращает массив данных.
 
             $active = 1;
-            $stmt = $pdo->prepare(SQL_ACTIVE_USER_BY_ID);
+            $stmt = $pdo->prepare(SQL_ACTIVATE_USER);
             $stmt->bindParam(':active', $active);
-            $stmt->bindParam(':id', $user['id']);
+            $stmt->bindParam(':login', $user['login']);
             $stmt->execute();
 
             $_SESSION['user'] = $user;                                    // создаём сессию с именем 'logged_user' и сохраняем там данные пользователя
-            header('Location: user.php?user_id=' . $user['id']);    // перенаправляем на страницу пользователя
+            header('Location: user.php?user=' . $user['login']);    // перенаправляем на страницу пользователя
         } else echo "Не правильный код активации аккаунта.";
     } catch (PDOException $e) {                                           // выводим ошибки PDO (работы с БД)
         echo '==== PDO Exception =====: ' . $e->getMessage();

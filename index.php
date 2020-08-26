@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (isset($_SESSION['user']['id'])) {
-    header('Location: user.php?user_id=' . $_SESSION['user']['id']);
+if (isset($_SESSION['user']['login'])) {
+    header('Location: user.php?user=' . $_SESSION['user']['login']);
 }
 
 require_once 'includes/db.php';     // подключение к БД
@@ -14,6 +14,7 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
         'login' => $_POST['login'],
         'password' => $_POST['password']
     );
+    // todo Добавь валидацию
 // ищем совпадение данных формы и БД
     try {
         $stmt = $pdo->prepare(SQL_LOGIN);                         // prepare — Подготавливает SQL-запрос к выполнению
@@ -25,7 +26,7 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
             $user = $stmt->fetch(PDO::FETCH_ASSOC);                  // rowCount() - возвращает массив данных.
             if (password_verify($form_data['password'], $user['password'])) { // если пароли сопадают то выполняем авторизацию
                 $_SESSION['user'] = $user;                                    // создаём сессию с именем 'logged_user' и сохраняем там данные пользователя
-                header('Location: user.php?user_id=' . $user['id']);    // перенаправляем на страницу пользователя
+                header('Location: user.php?user=' . $user['login']);    // перенаправляем на страницу пользователя
             } else echo "Не правильный пароль.";                              // если не совпадает пароль то вывести сообщение
         } else echo "Не правильный логин.";                                   // если пользователь не найден то выводим сообщение
     } catch (PDOException $e) {                                           // выводим ошибки PDO (работы с БД)
@@ -34,7 +35,7 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
 }
 ?>
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <?php //include_once 'includes/statistics.html' ?>
@@ -86,11 +87,11 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
                         <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                 <input class="mdl-textfield__input" type="text" id="login" name="login">
-                                <label class="mdl-textfield__label" for="login">Логин...</label>
+                                <label class="mdl-textfield__label" for="login">Логин</label>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                 <input class="mdl-textfield__input" type="password" id="password" name="password">
-                                <label class="mdl-textfield__label" for="password">Пароль...</label>
+                                <label class="mdl-textfield__label" for="password">Пароль</label>
                             </div>
                             <div class="mdl-card__actions">
                                 <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"

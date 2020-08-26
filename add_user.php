@@ -22,7 +22,7 @@ try {
 }
 ?>
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <title>Новый пользователь</title>
     <?php include_once 'includes/statistics.html' ?>
@@ -46,34 +46,30 @@ try {
     <div class="mdl-cell mdl-cell--12-col">
 
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="add_user">
-            <p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <select  class="mdl-textfield__input" name="role" id="role" required>
-                    <option value="user">user</option>
-                    <option value="manager">manager</option>
                     <option value="admin">admin</option>
+                    <option value="manager">manager</option>
+                    <option value="user">user</option>
                 </select>
                 <label class="mdl-textfield__label" for="role">Роль...</label>
             </div>
-            </p>
-            <p>
+            <br>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="full_name" name="full_name" required>
-                <label class="mdl-textfield__label" for="full_name">Имя...</label>
+                <label class="mdl-textfield__label" for="full_name">Имя</label>
             </div>
-            </p>
-            <p>
+            <br>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="login" name="login" required>
-                <label class="mdl-textfield__label" for="login">Логин...</label>
+                <label class="mdl-textfield__label" for="login">Логин</label>
             </div>
-            </p>
-            <p>
+            <br>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="password" id="password" name="password" required>
-                <label class="mdl-textfield__label" for="password">Пароль...</label>
+                <label class="mdl-textfield__label" for="password">Пароль</label>
             </div>
-            </p>
+            <br>
         </form>
     </div>
 </article>

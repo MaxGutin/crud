@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (isset($_SESSION['user']['id'])) {
-    header('Location: user.php?user_id=' . $_SESSION['user']['id']);
+if (isset($_SESSION['user']['login'])) {
+    header('Location: user.php?user=' . $_SESSION['user']['login']);
 }
 
 require_once 'includes/db.php';
@@ -54,12 +54,12 @@ if (isset($_REQUEST['add_user'])) {
         // Проверка длинны
         function check_length($value, $min, $max) {
             $length = strlen($value);
-            if ($length > $min AND $length < $max) {
+            if ($length >= $min AND $length <= $max) {
                 $result = TRUE;
             } else $result = FALSE;
             return !$result;  // инвертирую значение для следующего условия
         }
-
+        // todo нужно детализировать
         if (check_length($form_data['full_name'], 2, 255) OR check_length($form_data['login'], 2, 64) OR check_length($form_data['password'], 1, 64) OR !$email_validate) {
             exit('Длинна введённых данных не соответствует требованиям.');
         }
@@ -114,7 +114,7 @@ if (isset($_REQUEST['add_user'])) {
         // проверка отправки письма
         if ($mail_result) {
             // перенаправить на список пользователей
-            header('Location: ./users.php?msg=user_saved'); // перенаправляем на список пользователей
+            header('Location: ./user.php?user=' . $_SESSION['user']['login']);
         } else echo 'Ошибка отправки письма с кодом подтверждения.';
 
 
@@ -126,7 +126,7 @@ if (isset($_REQUEST['add_user'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <title>Новый пользователь</title>
     <?php //include_once 'includes/statistics.html' ?>
@@ -150,36 +150,31 @@ if (isset($_REQUEST['add_user'])) {
     <div class="mdl-cell mdl-cell--12-col">
 
         <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" id="add_user" enctype="multipart/form-data">
-            <p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="full_name" name="full_name" required>
-                <label class="mdl-textfield__label" for="full_name">Имя...</label>
+                <label class="mdl-textfield__label" for="full_name">Имя</label>
             </div>
-            </p>
-            <p>
+            <br>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="login" name="login" required>
-                <label class="mdl-textfield__label" for="login">Логин...</label>
+                <label class="mdl-textfield__label" for="login">Логин</label>
             </div>
-            </p>
-            <p>
+            <br>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="email" id="email" name="email" required>
-                <label class="mdl-textfield__label" for="email">Почта...</label>
+                <label class="mdl-textfield__label" for="email">Почта</label>
             </div>
-            </p>
-            <p>
+            <br>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="password" id="password" name="password" required>
-                <label class="mdl-textfield__label" for="password">Пароль...</label>
+                <label class="mdl-textfield__label" for="password">Пароль</label>
             </div>
-            </p>
-            <p>
+            <br>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="password" id="password_confirm" name="password_confirm" required>
-                <label class="mdl-textfield__label" for="password_confirm">Подтверждение пароля...</label>
+                <label class="mdl-textfield__label" for="password_confirm">Подтверждение пароля</label>
             </div>
-            </p>
+            <br>
         </form>
     </div>
 </article>
