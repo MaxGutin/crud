@@ -65,7 +65,6 @@ if (isset($_REQUEST['add_user'])) {
         }
 
         if (check_length($form_data['full_name'], 2, 255) OR check_length($form_data['login'], 2, 64) OR check_length($form_data['password'], 1, 64) OR !$email_validate) {
-            tester1($form_data);
             exit('Длинна введённых данных не соответствует требованиям.');
         }
         // Если валидация пройдена выполняется код ниже
