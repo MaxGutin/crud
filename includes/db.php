@@ -6,7 +6,7 @@ try {                                                                           
     $pdo = new PDO($dsn, $db_user, $db_password);                               // инициализация объекта PDO и вставка данных для подключения
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // настройка обработки ошибок
 } catch (PDOException $e) {                                                     // вывод исключений
-    print 'Error connection: ' . $e->getMessage();                              // вывод ошибок подключения
+    print '= Error connection: = ' . $e->getMessage();                              // вывод ошибок подключения
 }
 
 // Тестировщики
@@ -56,27 +56,33 @@ const SQL_INSERT_USER = '
 ';
 
 const SQL_GET_USER = '
-    SELECT id, role, full_name, login, email, password FROM users WHERE id = :id
+    SELECT id, role, full_name, login, email, password FROM users WHERE login = :login
 ';
 
 const SQL_GET_USERS = '
     SELECT * FROM users
 ';
 
-const SQL_UPDATE_USER_BY_ID = '
+const SQL_UPDATE_USER = '
     UPDATE users SET
-      role = :role,
       full_name = :full_name,
-      login = :login, 
+      email = :email
+    WHERE
+      login = :login
+';
+const SQL_UPDATE_USER_EXTENDED = '
+    UPDATE users SET
+      full_name = :full_name,
+      email = :email,
       password = :password
     WHERE
-      id = :id
+      login = :login
 ';
-const SQL_ACTIVE_USER_BY_ID = '
+const SQL_ACTIVATE_USER = '
     UPDATE users SET
       active = :active
     WHERE
-      id = :id
+      login = :login
 ';
 
-const SQL_DELETE_USER = 'DELETE FROM users WHERE id = :id';
+const SQL_DELETE_USER = 'DELETE FROM users WHERE login = :login';

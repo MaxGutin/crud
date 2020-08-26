@@ -4,22 +4,22 @@ require_once 'includes/secure.php';
 try {
     if ( isset($_GET['delete_user']) ) {
         $stmt = $pdo->prepare(SQL_DELETE_USER);
-        $stmt->bindParam(':id', $_GET['user_id']);
+        $stmt->bindParam(':login', $_GET['user']);
         $stmt->execute();
-        header('Location: ./users.php?msg=user_deleted');
+        logout();
     }
     if ( isset($_GET['abort']) ){
         header('Location: ./users.php');
     }
     $stmt = $pdo->prepare(SQL_GET_USER);
-    $result = $stmt->execute([':id' => $_REQUEST['user_id']]);
+    $result = $stmt->execute([':login' => $_SESSION['user']['login']]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo $e->getMessage();
 }
 ?>
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <title>Пользователь | <?php echo $user['full_name'] ?></title>
     <?php include_once 'includes/statistics.html' ?>
@@ -33,10 +33,10 @@ try {
 </div>
 <div class="mdl-grid" id="buttons">
     <div class="mdl-cell mdl-cell--12-col">
-        <a href="edituser.php?user_id=<? echo $user['id'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Редактировать</button></a>
+        <a href="edituser.php?user=<? echo $user['login'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Редактировать</button></a>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="window.print();">Печать</button>
         <a href="<?php echo $_SERVER['PHP_SELF'] . '?abort'?>" ><button class="mdl-button mdl-js-button mdl-button--raised" type="submit" name="abort">Отмена</button></a>
-        <a href="<?php echo $_SERVER['PHP_SELF'] . '?delete_user&user_id=' . $user['id']; ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Удалить</button></a>
+        <a href="<?php echo $_SERVER['PHP_SELF'] . '?delete_user&user=' . $user['login']; ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Удалить</button></a>
     </div>
 </div>
 <article class="main-content">

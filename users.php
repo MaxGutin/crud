@@ -6,9 +6,9 @@ try {
     // delete user
     if (isset($_GET['delete_user'])) {
         $stmt = $pdo->prepare(SQL_DELETE_USER);
-        $stmt->bindParam(':id', $_GET['user_id']);
+        $stmt->bindParam(':login', $_SESSION['user']['login']);
         $stmt->execute();
-        echo "<p>Пользователь удалён из базы данных!</p><hr>";
+        logout();
     }
     // get user list
     $stmt = $pdo->query(SQL_GET_USERS);
@@ -18,7 +18,7 @@ try {
 }
 ?>
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <title>Список пользователей</title>
     <?php include_once 'includes/statistics.html' ?>
@@ -32,7 +32,7 @@ try {
 
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-        <a href="../adduser.php">
+        <a href="add_user.php">
             <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                 <i class="material-icons">add</i>
             </button>
@@ -45,7 +45,7 @@ try {
 
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Login</th>
                     <th class="mdl-data-table__cell--non-numeric">Имя</th>
                     <th class="mdl-data-table__cell--non-numeric">Роль</th>
                     <th class="mdl-data-table__cell--non-numeric"></th>
@@ -55,16 +55,16 @@ try {
                 <tbody>
                 <?php foreach ($users as $key => $value) { ?>
                     <tr>
-                        <td><a href="../user.php?user_id=<?php echo $value['id'] ?>"><?php echo $value['id'] ?></a></td>
+                        <td><a href="user.php?user=<?php echo $value['login'] ?>"><?php echo $value['login'] ?></a></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['full_name'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['role'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <a href="../edituser.php?user_id=<?php echo $value['id'] ?>">
+                            <a href="edituser.php?user=<?php echo $value['login'] ?>">
                                 <i class="material-icons">edit</i>
                             </a>
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <a href="<?php echo $_SERVER['PHP_SELF'] . '?delete_user=&user_id=' . $value['id']; ?>" >
+                            <a href="<?php echo $_SERVER['PHP_SELF'] . '?delete_user=&user=' . $value['login']; ?>" >
                                 <i class="material-icons">delete</i>
                             </a>
                         </td>
