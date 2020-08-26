@@ -7,10 +7,6 @@ if (isset($_SESSION['user']['id'])) {
 require_once 'includes/db.php';
 
 
-// если нажали кнопку Отмена то отправляем на страницу входа
-if (isset($_POST['abort'])) header('Location: ./index.php');
-
-
 // если нажали кнопку Зарегистрировать, то ...
 if (isset($_REQUEST['add_user'])) {
     try { // перехват исключений
@@ -147,7 +143,7 @@ if (isset($_REQUEST['add_user'])) {
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add_user">Зарегистрировать</button>
         <button class="mdl-button mdl-js-button mdl-button--raised" type="reset" form="add_user">Очистить</button>
 <!--        <button class="mdl-button mdl-js-button mdl-button--raised" type="submit" form="add_user" name="abort">Отмена</button>-->
-        <a class="mdl-button mdl-js-button mdl-button--raised" href="users.php" name="abort">Отмена</a>
+        <a class="mdl-button mdl-js-button mdl-button--raised" href="index.php">Отмена</a>
     </div>
 </div>
 <article class="mdl-grid main-content">
