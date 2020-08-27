@@ -1,13 +1,21 @@
 <?php
-//todo Сделай проверку на наличее логина в базе и добавь на страницу регистрации
 require_once 'includes/db.php';
 require_once 'includes/secure.php';
-
-if (isset($_POST['abort'])) {
-    header('Location: ./users.php');
-}
 try {
     if (isset($_REQUEST['add_user'])) {
+        // проверка на занят ли логин
+        $stmt = $pdo->prepare(SQL_LOGIN);                              // prepare — Подготавливает SQL-запрос к выполнению
+        $stmt->bindParam(':login', $_POST['login']);      // bindParam — Привязывает значение переменной к параметру SQL-запроса
+        $result = $stmt->execute();                                             // execute — выполняет подготовленный запрос и возвращает результат
+        $user_count = $stmt->rowCount();
+
+
+        if ($user_count > 0 ) {                                                 // если логин не найден
+            exit('Пользователь с таким логином уже существует!');               // завершаем работу скрипта
+        }
+
+
+
         $stmt = $pdo->prepare(SQL_INSERT_USER);
         $stmt->execute([
             $_POST['role'],
@@ -38,8 +46,7 @@ try {
     <div class="mdl-cell mdl-cell--12-col">
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add_user">Сохранить</button>
         <button class="mdl-button mdl-js-button mdl-button--raised" type="reset" form="add_user">Очистить</button>
-<!--        <button class="mdl-button mdl-js-button mdl-button--raised" type="submit" form="add_user" name="abort">Отмена</button>-->
-        <a class="mdl-button mdl-js-button mdl-button--raised" href="users.php" name="abort">Отмена</a>
+        <a      class="mdl-button mdl-js-button mdl-button--raised" href="users.php">Отмена</a>
     </div>
 </div>
 <article class="mdl-grid main-content">
