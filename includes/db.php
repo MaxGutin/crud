@@ -1,4 +1,8 @@
 <?php
+/* This file contains:
+ * DB connection object (PDO), SQL-constants, debug functions.
+ */
+
 $dsn = 'mysql:host=localhost;dbname=crud';
 $db_user = 'root';
 $db_password = 'root';
@@ -9,30 +13,11 @@ try {                                                                           
     print '= Error connection: = ' . $e->getMessage();                              // вывод ошибок подключения
 }
 
-// Тестировщики
-function tester1($a)
-{
-    if ($a) {
-        echo "<pre>";
-        print_r($a);
-        echo '</pre>';
-    } else echo '== UNDEFINED ==';
-}
-function tester2($a)
-{
-    if ($a) {
-        echo "<pre>";
-        var_dump($a);
-        echo '</pre>';
-    } else echo '== UNDEFINED ==';
-}
-
-// Константы с SQL выражениями
+// SQL-constants
 const SQL_LOGIN = '
     SELECT id, active, role, full_name, login, password FROM users WHERE login = :login
 ';
 
-// Константы с SQL выражениями
 const SQL_VERIFY_CODE = '
     SELECT id, role, full_name, login, password, verify_code FROM users WHERE verify_code = :verify_code
 ';
@@ -86,3 +71,22 @@ const SQL_ACTIVATE_USER = '
 ';
 
 const SQL_DELETE_USER = 'DELETE FROM users WHERE login = :login';
+
+
+// Debug functions.
+function tester1($a)
+{
+    if ($a) {
+        echo "<pre>";
+        print_r($a);
+        echo '</pre>';
+    } else echo '== UNDEFINED ==';
+}
+function tester2($a)
+{
+    if ($a) {
+        echo "<pre>";
+        var_dump($a);
+        echo '</pre>';
+    } else echo '== UNDEFINED ==';
+}
