@@ -13,7 +13,7 @@ if (isset($_REQUEST['logout'])) {
     logout();
 }
 
-// проверяем что сессия пренадлежит пользователю
+// проверяем что сессия принадлежит пользователю
 if ($_SERVER['PHP_SELF'] != 'index.php' AND $_SERVER['PHP_SELF'] != 'singup.php') {  // проверяем что мы не на странице авторизации или регистрации
     if (empty($_SESSION['user']['login'])) header('Location: index.php?empty_session');     // Поверка наличия сессии
     try {                                                                           // ищем совпадение данных сессии и БД
@@ -21,6 +21,10 @@ if ($_SERVER['PHP_SELF'] != 'index.php' AND $_SERVER['PHP_SELF'] != 'singup.php'
         $stmt->bindParam(':login', $_SESSION['user']['login']);
         $result = $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($user['active'] == 0) {
+            echo 'Please activate your account';
+            exit;
+        }
     } catch (PDOException $e) {
         echo '=== SESSION EXCEPTION ===  ' . $e->getMessage();
     }

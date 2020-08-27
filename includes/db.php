@@ -29,7 +29,7 @@ function tester2($a)
 
 // Константы с SQL выражениями
 const SQL_LOGIN = '
-    SELECT id, role, full_name, login, password FROM users WHERE login = :login
+    SELECT id, active, role, full_name, login, password FROM users WHERE login = :login
 ';
 
 // Константы с SQL выражениями
@@ -56,7 +56,7 @@ const SQL_INSERT_USER = '
 ';
 
 const SQL_GET_USER = '
-    SELECT id, role, full_name, login, email, password FROM users WHERE login = :login
+    SELECT id, active, role, full_name, login, email, password FROM users WHERE login = :login
 ';
 
 const SQL_GET_USERS = '
