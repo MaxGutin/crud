@@ -33,7 +33,7 @@ try {
 </div>
 <div class="mdl-grid" id="buttons">
     <div class="mdl-cell mdl-cell--12-col">
-        <a href="edituser.php?user=<? echo $user['login'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Редактировать</button></a>
+        <a href="edit_user.php?user=<? echo $user['login'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Редактировать</button></a>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="window.print();">Печать</button>
         <a class="mdl-button mdl-js-button mdl-button--raised"  href="./users.php">Отмена</a>
         <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" href="<?php echo $_SERVER['PHP_SELF'] . '?delete_user&user=' . $user['login']; ?>">Удалить</a>
