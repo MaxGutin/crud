@@ -1,93 +1,65 @@
 <?php
 session_start();
+// перенаправление на страницу профиля при активной сессии
 if (isset($_SESSION['user']['login'])) {
     header('Location: user.php?user=' . $_SESSION['user']['login']);
 }
 
 require_once 'includes/db.php';
+require_once 'includes/validate.php';
 
+if (isset($_POST['add-user'])) {     // проверка нажатия кнопки РЕГИСТРАЦИЯ
 
-// если нажали кнопку Зарегистрировать, то ...
-if (isset($_REQUEST['add_user'])) {
-    try { // перехват исключений
-
-
-        // Проверка совпадения введёных паролей
-        if ($_POST['password'] !== $_POST['password_confirm']) { // Пароли совпадают
-            exit('Введённые пароли не совпали.');
-        }
-
-        // переносим данные формы в массив
-        $form_data = array(
-            'full_name' => $_POST['full_name'],
-            'login' => $_POST['login'],
-            'email' => $_POST['email'],
-            'password' => $_POST['password']
-        );
-
+    // переносим данные формы в массив
+    $form_data = [
+        'full_name' => $_POST['full_name'],
+        'login' => $_POST['login'],
+        'email' => $_POST['email'],
+        'password' => $_POST['password']
+    ];
 
 // Validation
+    // Проверка совпадения введённых паролей
+    if ($form_data['password'] !== $_POST['password_confirm']) exit('Введённые пароли не совпали.');
 
-        // функция очистки данных от тегов
-        function clean($array) {
-            foreach ($array as $key => $value) {
-                $value = trim($value);
-                $value = stripslashes($value);
-                $value = strip_tags($value);
-                $value = htmlspecialchars($value);
-                $array[$key] = $value;
-            }
-            return $array;
-        }
+    // пропускаем массив через функцию очистки
+    $form_data = clean($form_data); // clean() locate in validate.php
 
-        // пропускаем массив через функцию очистки
-        $form_data = clean($form_data);
+    // проверка на пустые значения
+    if(empty($form_data['full_name']) OR empty($form_data['login']) OR empty($form_data['email']) OR empty($form_data['password'])) {
+        exit('Заполните все значения.');
+    }
 
-        // проверка на пустые значения
-        if(empty($form_data['full_name']) OR empty($form_data['login']) OR empty($form_data['email']) OR empty($form_data['password'])) {
-            exit('Заполните все значения.');
-        }
-
-        // валидация эл. почты
-        $email_validate = filter_var($form_data['email'], FILTER_VALIDATE_EMAIL);
-
-        // Проверка длинны
-        function check_length($value, $min, $max) {
-            $length = strlen($value);
-            if ($length >= $min AND $length <= $max) {
-                $result = TRUE;
-            } else $result = FALSE;
-            return $result;  // инвертирую значение для следующего условия
-        }
-
-        if (!check_length($form_data['full_name'], 2, 255)) {
-            exit('Name long must be between 2 and 255 characters.');
-        }
-        if (!check_length($form_data['login'], 2, 64)) {
-            exit('Login long must be between 2 and 64 characters.');
-        }
-        if (!check_length($form_data['password'], 2, 64)) {
-            exit('Password long must be between 2 and 255 characters.');
-        }
-        if (!$email_validate) {
-            exit('Enter correct e-mail.');
-        }
+    // валидация эл. почты
+    $email_validate = filter_var($form_data['email'], FILTER_VALIDATE_EMAIL);
 
 
-
-
+    // проверка длинны данных
+    if (!check_length($form_data['full_name'], 2, 255)) {
+        exit('Name long must be between 2 and 255 characters.');
+    }
+    if (!check_length($form_data['login'], 2, 64)) {
+        exit('Login long must be between 2 and 64 characters.');
+    }
+    if (!check_length($form_data['password'], 2, 64)) {
+        exit('Password long must be between 2 and 255 characters.');
+    }
+    if (!$email_validate) {
+        exit('Enter correct e-mail.');
+    }
 // Validation end
 
-
-        // проверка на занят ли логин
-        $stmt = $pdo->prepare(SQL_LOGIN);                              // prepare — Подготавливает SQL-запрос к выполнению
-        $stmt->bindParam(':login', $form_data['login']);      // bindParam — Привязывает значение переменной к параметру SQL-запроса
-        $result = $stmt->execute();                                             // execute — выполняет подготовленный запрос и возвращает результат
+    // Finding matches in DB
+    try {
+        // Preparation
+        $stmt = $pdo->prepare(SQL_LOGIN);                         // prepare — Подготавливает SQL-запрос к выполнению
+        $stmt->bindParam(':login', $form_data['login']); // bindParam — Привязывает значение переменной к параметру SQL-запроса
+        $result = $stmt->execute();                                       // execute — выполняет подготовленный запрос и возвращает результат
         $user_count = $stmt->rowCount();
 
-
-        if ($user_count > 0 ) {                                                 // если логин не найден
-            exit('Пользователь с таким логином уже существует!');               // завершаем работу скрипта
+        // Check
+        if ($user_count > 0 ) {                                            // если логин не найден
+            exit('Пользователь с таким логином уже существует!');          // завершаем работу скрипта
         }
 
 
@@ -104,12 +76,12 @@ if (isset($_REQUEST['add_user'])) {
 
 
         // Добавить данные в БД
-        $stmt = $pdo->prepare(SQL_INSERT_USER);        // подготавливаем запрос с данными
-        $stmt->execute(array_values($form_data));               // и отправляем его на выполтениние MySQL серверу
+        $stmt = $pdo->prepare(SQL_INSERT_USER); // подготавливаем запрос с данными
+        $stmt->execute(array_values($form_data));        // и отправляем его на выполнение MySQL серверу
 
 
         // открыть сессию
-        $_SESSION['user'] = $form_data;                         // ... и сохраняем данные пользователя в сессию
+        $_SESSION['user'] = $form_data;                  // ... и сохраняем данные пользователя в сессию
 
 
         // отправка письма подтверждения
@@ -153,7 +125,7 @@ if (isset($_REQUEST['add_user'])) {
 
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add_user">Зарегистрировать</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add-user">Зарегистрировать</button>
         <button class="mdl-button mdl-js-button mdl-button--raised" type="reset" form="add_user">Очистить</button>
 <!--        <button class="mdl-button mdl-js-button mdl-button--raised" type="submit" form="add_user" name="abort">Отмена</button>-->
         <a class="mdl-button mdl-js-button mdl-button--raised" href="index.php">Отмена</a>
