@@ -35,8 +35,8 @@ try {
     <div class="mdl-cell mdl-cell--12-col">
         <a href="edituser.php?user=<? echo $user['login'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Редактировать</button></a>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="window.print();">Печать</button>
-        <a href="<?php echo $_SERVER['PHP_SELF'] . '?abort'?>" ><button class="mdl-button mdl-js-button mdl-button--raised" type="submit" name="abort">Отмена</button></a>
-        <a href="<?php echo $_SERVER['PHP_SELF'] . '?delete_user&user=' . $user['login']; ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Удалить</button></a>
+        <a class="mdl-button mdl-js-button mdl-button--raised"  href="./users.php">Отмена</a>
+        <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" href="<?php echo $_SERVER['PHP_SELF'] . '?delete_user&user=' . $user['login']; ?>">Удалить</a>
     </div>
 </div>
 <article class="main-content">

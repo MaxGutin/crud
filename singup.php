@@ -26,7 +26,7 @@ if (isset($_REQUEST['add_user'])) {
         );
 
 
-// Валидация
+// Validation
 
         // функция очистки данных от тегов
         function clean($array) {
@@ -57,13 +57,26 @@ if (isset($_REQUEST['add_user'])) {
             if ($length >= $min AND $length <= $max) {
                 $result = TRUE;
             } else $result = FALSE;
-            return !$result;  // инвертирую значение для следующего условия
+            return $result;  // инвертирую значение для следующего условия
         }
-        // todo нужно детализировать
-        if (check_length($form_data['full_name'], 2, 255) OR check_length($form_data['login'], 2, 64) OR check_length($form_data['password'], 1, 64) OR !$email_validate) {
-            exit('Длинна введённых данных не соответствует требованиям.');
+
+        if (!check_length($form_data['full_name'], 2, 255)) {
+            exit('Name long must be between 2 and 255 characters.');
         }
-        // Если валидация пройдена выполняется код ниже
+        if (!check_length($form_data['login'], 2, 64)) {
+            exit('Login long must be between 2 and 64 characters.');
+        }
+        if (!check_length($form_data['password'], 2, 64)) {
+            exit('Password long must be between 2 and 255 characters.');
+        }
+        if (!$email_validate) {
+            exit('Enter correct e-mail.');
+        }
+
+
+
+
+// Validation end
 
 
         // проверка на занят ли логин

@@ -56,9 +56,6 @@ try {
     $stmt->execute([':login' => $_SESSION['user']['login']]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ( isset($_POST['abort']) ){
-        header('Location: user.php?user=' . $_REQUEST['user']);
-    }
 } catch (PDOException $e) {
     echo '=== PDO EXCEPTION ===: ' . $e->getMessage();
 }
@@ -81,9 +78,9 @@ try {
                 form="edit_user" type="submit" name="update_user">
             Сохранить
         </button>
-        <button class="mdl-button mdl-js-button mdl-button--raised" form="edit_user" type="submit" name="abort">
+        <a class="mdl-button mdl-js-button mdl-button--raised" href="user.php?user=<?php echo($_SESSION['user']['login'])?>">
             Отмена
-        </button>
+        </a>
     </div>
 </div>
 <article class="mdl-grid main-content">
