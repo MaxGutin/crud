@@ -72,6 +72,19 @@ const SQL_ACTIVATE_USER = '
 
 const SQL_DELETE_USER = 'DELETE FROM users WHERE login = :login';
 
+const SQL_CREATE_TASKS_TABLE = '
+	CREATE TABLE IF NOT EXISTS tasks (
+		id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+		user_id INT UNSIGNED NOT NULL,
+		done BOOLEAN NOT NULL DEFAULT \'0\',
+		create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		header VARCHAR(255) NOT NULL,
+		description VARCHAR(1000) NOT NULL,
+		deadline DATETIME NOT NULL,
+		PRIMARY KEY (id)
+	)
+';
+
 
 // Debug functions.
 function tester1($a)
