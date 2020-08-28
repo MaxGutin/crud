@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/db.php';
 require_once 'includes/secure.php';
+require_once 'includes/validate.php';
 // todo add validation
 try {
     if (isset($_POST['update_user'])) {
