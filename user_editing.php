@@ -2,7 +2,6 @@
 require_once 'includes/db.php';
 require_once 'includes/secure.php';
 require_once 'includes/validate.php';
-// todo add validation
 try {
     if (isset($_POST['update_user'])) {
 
@@ -13,6 +12,11 @@ try {
                 'full_name' => $_POST['full_name'],
                 'email' => $_POST['email']
             );
+
+// Validation
+            $form_data = clean($form_data); // clean() locate in validate.php
+// Validation end
+
 
             // update DB
             $stmt = $pdo->prepare(SQL_UPDATE_USER);
@@ -29,6 +33,11 @@ try {
                 'email' => $_POST['email'],
                 'password' => $_POST['password']
             );
+
+// Validation
+            $form_data = clean($form_data); // clean() locate in validate.php
+// Validation end
+
 
             if ($form_data['password'] == $_POST['password_confirm']) {
                 // password hashing
