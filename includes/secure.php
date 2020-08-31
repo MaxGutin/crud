@@ -41,7 +41,15 @@ if ($_SERVER['PHP_SELF'] != '/index.php' AND $_SERVER['PHP_SELF'] != '/sing_up.p
 
             // Activate account check
             if ($user['active'] == 0) {
-                echo 'Please activate your account';
+                require_once 'includes/menu.html';
+                ?>
+                    <div class="mdl-grid">
+                        <div class="mdl-cell mdl-cell--12-col">
+                            <h1>Please activate your account</h1>
+                        </div>
+                    </div>
+                <?php
+                require_once 'includes/footer.html';
                 exit;
             }
         }

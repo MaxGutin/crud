@@ -54,7 +54,7 @@ if (isset($_POST['add-user'])) {     // проверка нажатия кноп
         // Preparation
         $stmt = $pdo->prepare(SQL_LOGIN);                         // prepare — Подготавливает SQL-запрос к выполнению
         $stmt->bindParam(':login', $form_data['login']); // bindParam — Привязывает значение переменной к параметру SQL-запроса
-        $result = $stmt->execute();                                       // execute — выполняет подготовленный запрос и возвращает результат
+        $stmt->execute();                                       // execute — выполняет подготовленный запрос и возвращает результат
         $user_count = $stmt->rowCount();
 
         // Check
@@ -104,31 +104,31 @@ if (isset($_POST['add-user'])) {     // проверка нажатия кноп
 
 
     } catch (PDOException $e) {
-        echo 'PDO ERROR: ' . $e->getMessage();
+        echo '== PDO ERROR: (sing_up.php) ==' . $e->getMessage();
     } catch (Exception $e) {
-        echo 'OTHER EXCEPTION: ' . $e->getMessage();
+        echo '== OTHER EXCEPTION: (sing_up.php) ==' . $e->getMessage();
     }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Новый пользователь</title>
+    <title>Registration</title>
     <?php //include_once 'includes/statistics.html' ?>
     <?php include_once 'includes/menu.html' ?>
 
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-        <h1>Новый пользователь</h1>
+        <h1>Registration</h1>
     </div>
 </div>
 
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add-user">Зарегистрировать</button>
-        <button class="mdl-button mdl-js-button mdl-button--raised" type="reset" form="add_user">Очистить</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add-user">Sing Up</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised" type="reset" form="add_user">Clean</button>
 <!--        <button class="mdl-button mdl-js-button mdl-button--raised" type="submit" form="add_user" name="abort">Отмена</button>-->
-        <a class="mdl-button mdl-js-button mdl-button--raised" href="index.php">Отмена</a>
+        <a class="mdl-button mdl-js-button mdl-button--raised" href="index.php">Abort</a>
     </div>
 </div>
 <article class="mdl-grid main-content">
@@ -137,27 +137,27 @@ if (isset($_POST['add-user'])) {     // проверка нажатия кноп
         <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" id="add_user" enctype="multipart/form-data">
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="full_name" name="full_name" required>
-                <label class="mdl-textfield__label" for="full_name">Имя</label>
+                <label class="mdl-textfield__label" for="full_name">Name</label>
             </div>
             <br>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="login" name="login" required>
-                <label class="mdl-textfield__label" for="login">Логин</label>
+                <label class="mdl-textfield__label" for="login">Login</label>
             </div>
             <br>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="email" id="email" name="email" required>
-                <label class="mdl-textfield__label" for="email">Почта</label>
+                <label class="mdl-textfield__label" for="email">E-mail</label>
             </div>
             <br>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="password" id="password" name="password" required>
-                <label class="mdl-textfield__label" for="password">Пароль</label>
+                <label class="mdl-textfield__label" for="password">Password</label>
             </div>
             <br>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="password" id="password_confirm" name="password_confirm" required>
-                <label class="mdl-textfield__label" for="password_confirm">Подтверждение пароля</label>
+                <label class="mdl-textfield__label" for="password_confirm">Password confirm</label>
             </div>
             <br>
         </form>
