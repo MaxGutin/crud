@@ -2,7 +2,6 @@
 require_once 'includes/db.php';
 require_once 'includes/secure.php';
 require_once 'includes/validate.php';
-// todo add validation
 if (isset($_REQUEST['add-user'])) {
 
     // переносим данные формы в массив
@@ -16,21 +15,21 @@ if (isset($_REQUEST['add-user'])) {
 
 // Validation
     $form_data = clean($form_data); // clean() locate in validate.php
+    // todo Add password check like in singup page.
 // Validation end
 
     // Finding matches in DB
     try {
         // Preparation
-        $stmt = $pdo->prepare(SQL_LOGIN);                              // prepare — Подготавливает SQL-запрос к выполнению
-        $stmt->bindParam(':login', $_POST['login']);      // bindParam — Привязывает значение переменной к параметру SQL-запроса
-        $result = $stmt->execute();                                             // execute — выполняет подготовленный запрос и возвращает результат
+        $stmt = $pdo->prepare(SQL_LOGIN);
+        $stmt->bindParam(':login', $_POST['login']);
+        $result = $stmt->execute();
         $user_count = $stmt->rowCount();
 
 
-        if ($user_count > 0 ) {                                                 // если логин не найден
+        if ($user_count > 0 ) {                                                 // если логин найден
             exit('Пользователь с таким логином уже существует!');               // завершаем работу скрипта
         }
-
 
 
         $stmt = $pdo->prepare(SQL_INSERT_USER);
@@ -44,21 +43,21 @@ if (isset($_REQUEST['add-user'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Новый пользователь</title>
-    <?php include_once 'includes/statistics.html' ?>
+    <title>New User</title>
+    <?php //include_once 'includes/statistics.html' ?>
     <?php include_once 'includes/menu.html' ?>
 
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-        <h1>Новый пользователь</h1>
+        <h1>New User</h1>
     </div>
 </div>
 
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add-user">Сохранить</button>
-        <button class="mdl-button mdl-js-button mdl-button--raised" type="reset" form="add_user">Очистить</button>
-        <a      class="mdl-button mdl-js-button mdl-button--raised" href="users.php">Отмена</a>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add-user">Save</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised" type="reset" form="add_user">Clean</button>
+        <a      class="mdl-button mdl-js-button mdl-button--raised" href="users.php">Abort</a>
     </div>
 </div>
 <article class="mdl-grid main-content">

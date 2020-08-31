@@ -2,13 +2,6 @@
 require_once 'includes/db.php';
 require_once 'includes/secure.php';
 try {
-    if ( isset($_GET['delete_user']) ) {
-        $stmt = $pdo->prepare(SQL_DELETE_USER);
-        $stmt->bindParam(':login', $_GET['user']);
-        $stmt->execute();
-        logout();
-    }
-
     $stmt = $pdo->prepare(SQL_GET_USER);
     $result = $stmt->execute([':login' => $_SESSION['user']['login']]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -34,7 +27,7 @@ try {
         <a href="user_editing.php?user=<? echo $user['login'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Edit</button></a>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="window.print();">Print</button>
         <a class="mdl-button mdl-js-button mdl-button--raised"  href="./users.php">Abort</a>
-        <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" href="<?php echo $_SERVER['PHP_SELF'] . '?delete_user&user=' . $user['login']; ?>">Delete</a>
+        <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" href="users.php?delete_user">Delete</a>
     </div>
 </div>
 <article class="main-content">
