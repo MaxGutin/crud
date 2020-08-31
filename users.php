@@ -14,7 +14,7 @@ try {
     $stmt = $pdo->query(SQL_GET_USERS);
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echo $e->getMessage();
+    echo '== PDO EXCEPTION (users.php): == <pre>' . $e->getMessage() . '</pre>';
 }
 ?>
 <!DOCTYPE html>
