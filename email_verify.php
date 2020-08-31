@@ -10,25 +10,29 @@ require_once 'includes/db.php';
 if ($_REQUEST) {
     $verify_code = array_key_first($_REQUEST);
 
+    // search code in DB
     try {
-        $stmt = $pdo->prepare(SQL_VERIFY_CODE);                         // prepare — Подготавливает SQL-запрос к выполнению
-        $stmt->bindParam(':verify_code', $verify_code); // bindParam — Привязывает параметр SQL-запроса к POST-переменной
-        $result = $stmt->execute();                                       // execute — Запускает подготовленный запрос на выполнение, сохраняем результат
-        $user_count = $stmt->rowCount();                                  // rowCount() - возвращает количество строк, нужно для проверки.
+        $stmt = $pdo->prepare(SQL_VERIFY_CODE);
+        $stmt->bindParam(':verify_code', $verify_code);
+        $result = $stmt->execute();
+        $user_count = $stmt->rowCount();
 
-        if ($user_count > 0) {                                                // найдена ли строка с искомым login в БД
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);                  // rowCount() - возвращает массив данных.
+        // check the code
+        if ($user_count > 0) {
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            // change account status
             $active = 1;
             $stmt = $pdo->prepare(SQL_ACTIVATE_USER);
             $stmt->bindParam(':active', $active);
             $stmt->bindParam(':login', $user['login']);
             $stmt->execute();
 
-            $_SESSION['user'] = $user;                                    // создаём сессию с именем 'logged_user' и сохраняем там данные пользователя
-            header('Location: user.php?user=' . $user['login']);    // перенаправляем на страницу пользователя
+            // start session
+            $_SESSION['user'] = $user;
+            header('Location: user.php?user=' . $user['login']);
         } else echo "Не правильный код активации аккаунта.";
-    } catch (PDOException $e) {                                           // выводим ошибки PDO (работы с БД)
+    } catch (PDOException $e) {
         echo '==== PDO Exception =====: ' . $e->getMessage();
     }
-} else header('Location: ./');    // перенаправление
+} else header('Location: ./index.php?ver_err');
