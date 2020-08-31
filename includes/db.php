@@ -14,14 +14,7 @@ try {                                                                           
 }
 
 // SQL-constants
-const SQL_LOGIN = '
-    SELECT id, active, role, full_name, login, password FROM users WHERE login = :login
-';
-
-const SQL_VERIFY_CODE = '
-    SELECT id, role, full_name, login, password, verify_code FROM users WHERE verify_code = :verify_code
-';
-
+// Users section
 const SQL_CREATE_USERS_TABLE = '
 	CREATE TABLE IF NOT EXISTS users (
 		id INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -36,33 +29,18 @@ const SQL_CREATE_USERS_TABLE = '
 	)
 ';
 
-const SQL_INSERT_USER = '
-    INSERT INTO users (full_name, login, email, password, verify_code) VALUE (?,?,?,?,?)
+const SQL_LOGIN = '
+    SELECT id, active, role, full_name, login, password
+    FROM users
+    WHERE login = :login
 ';
 
-const SQL_GET_USER = '
-    SELECT id, active, role, full_name, login, email, password FROM users WHERE login = :login
+const SQL_VERIFY_CODE = '
+    SELECT id, role, full_name, login, password, verify_code
+    FROM users
+    WHERE verify_code = :verify_code
 ';
 
-const SQL_GET_USERS = '
-    SELECT * FROM users
-';
-
-const SQL_UPDATE_USER = '
-    UPDATE users SET
-      full_name = :full_name,
-      email = :email
-    WHERE
-      login = :login
-';
-const SQL_UPDATE_USER_EXTENDED = '
-    UPDATE users SET
-      full_name = :full_name,
-      email = :email,
-      password = :password
-    WHERE
-      login = :login
-';
 const SQL_ACTIVATE_USER = '
     UPDATE users SET
       active = :active
@@ -70,8 +48,41 @@ const SQL_ACTIVATE_USER = '
       login = :login
 ';
 
+const SQL_INSERT_USER = '
+    INSERT INTO users (full_name, login, email, password, verify_code)
+    VALUE (?,?,?,?,?)
+';
+
+const SQL_GET_USER = '
+    SELECT id, active, role, full_name, login, email, password
+    FROM users
+    WHERE login = :login
+';
+
+const SQL_GET_USERS = 'SELECT * FROM users';
+
+const SQL_UPDATE_USER = '
+    UPDATE users
+    SET
+      full_name = :full_name,
+      email = :email
+    WHERE
+      login = :login
+';
+
+const SQL_UPDATE_USER_EXTENDED = '
+    UPDATE users
+    SET
+      full_name = :full_name,
+      email = :email,
+      password = :password
+    WHERE
+      login = :login
+';
+
 const SQL_DELETE_USER = 'DELETE FROM users WHERE login = :login';
 
+// Tasks section
 const SQL_CREATE_TASKS_TABLE = '
 	CREATE TABLE IF NOT EXISTS tasks (
 		id INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -84,6 +95,8 @@ const SQL_CREATE_TASKS_TABLE = '
 		PRIMARY KEY (id)
 	)
 ';
+
+const SQL_GET_TASKS = 'SELECT * FROM tasks WHERE user_id = 1';
 
 
 // Debug functions.
