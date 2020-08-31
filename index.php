@@ -1,5 +1,21 @@
 <?php
+/* Logout function,
+ *
+ */
 session_start();
+// Logout function
+function logout()
+{
+    $_SESSION = array();
+    unset($_SESSION[session_name()]);
+    unset($_COOKIE[session_name()]);
+    session_destroy();
+    header('Location: index.php?left');
+}
+if (isset($_REQUEST['logout'])) {
+    logout();
+}
+
 // перенаправление на страницу профиля при активной сессии
 if (isset($_SESSION['user']['login'])) {
     header('Location: user.php?user=' . $_SESSION['user']['login']);

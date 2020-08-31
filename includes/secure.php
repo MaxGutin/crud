@@ -1,23 +1,9 @@
 <?php
 /* This file contains:
- * Logout function, Session authentication,  Activate account check.
+ * Session authentication,  Activate account check.
  */
 
 session_start();
-
-// Logout function
-function logout()
-{
-    $_SESSION = array();
-    unset($_SESSION[session_name()]);
-    unset($_COOKIE[session_name()]);
-    session_destroy();
-    header('Location: index.php?left');
-}
-if (isset($_REQUEST['logout'])) {
-    logout();
-}
-
 
 // проверяем что сессия принадлежит пользователю
 if ($_SERVER['PHP_SELF'] != '/index.php' AND $_SERVER['PHP_SELF'] != '/sing_up.php') {  // проверяем что мы не на странице авторизации или регистрации
