@@ -102,7 +102,7 @@ const SQL_GET_TASKS = 'SELECT * FROM tasks WHERE user_id = 1';
 const SQL_GET_TASK = '
     SELECT *
     FROM tasks
-    WHERE id = :task_id
+    WHERE id = :task_id AND user_id = :user_id
 ';
 
 const SQL_DELETE_TASK = 'DELETE FROM tasks WHERE id = :task_id';

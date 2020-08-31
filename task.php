@@ -5,8 +5,15 @@ require_once 'includes/secure.php';
 try {
     // get task from DB
     $stmt = $pdo->prepare(SQL_GET_TASK);
-    $result = $stmt->execute([':task_id' => $_REQUEST['task_id']]);
-    $task = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->bindParam(':task_id', $_REQUEST['task_id']);
+    $stmt->bindParam(':user_id', $_SESSION['user']['id']);
+    $stmt->execute();
+    $task_count = $stmt->rowCount();
+    if ($task_count > 0) {
+        $task = $stmt->fetch(PDO::FETCH_ASSOC);
+    } else {
+        exit('Access denied!');
+    }
 } catch (PDOException $e) {
     echo '== PDO EXCEPTION (task.php) ==: <pre>' . $e->getMessage() . '</pre>';
 }
