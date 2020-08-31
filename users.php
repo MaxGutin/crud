@@ -32,7 +32,7 @@ try {
 
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-        <a href="add_user.php">
+        <a href="user_add.php">
             <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                 <i class="material-icons">add</i>
             </button>
@@ -59,7 +59,7 @@ try {
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['full_name'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['role'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <a href="edit_user.php?user=<?php echo $value['login'] ?>">
+                            <a href="user_editing.php?user=<?php echo $value['login'] ?>">
                                 <i class="material-icons">edit</i>
                             </a>
                         </td>

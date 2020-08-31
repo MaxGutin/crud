@@ -31,7 +31,7 @@ try {
 </div>
 <div class="mdl-grid" id="buttons">
     <div class="mdl-cell mdl-cell--12-col">
-        <a href="edit_user.php?user=<? echo $user['login'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Edit</button></a>
+        <a href="user_editing.php?user=<? echo $user['login'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Edit</button></a>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="window.print();">Print</button>
         <a class="mdl-button mdl-js-button mdl-button--raised"  href="./users.php">Abort</a>
         <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" href="<?php echo $_SERVER['PHP_SELF'] . '?delete_user&user=' . $user['login']; ?>">Delete</a>
