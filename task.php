@@ -30,7 +30,7 @@ try {
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="window.print();">Print</button>
             <a class="mdl-button mdl-js-button mdl-button--raised"  href="./tasks.php">Abort</a>
             <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
-               href="<?php echo $_SERVER['PHP_SELF'] . '?delete_task&task_id=' . $task['id']; ?>">Delete</a>
+               href="tasks.php?delete_task&task_id=<?= $task['id']; ?>">Delete</a>
         </div>
     </div>
     <article class="main-content">
@@ -39,7 +39,7 @@ try {
                 <p><span><b>ID: </b></span><span><?php echo $task['id'] ?></span></p>
                 <p><span><b>DONE: </b></span><span><?php echo $task['done'] ?></span></p>
                 <p><span><b>Header: </b></span><span><?php echo $task['header'] ?></span></p>
-                <p><span><b>Description: </b></span><span><?php echo $task['description'] ?></span></p>
+                <p><span><b>Description: </b></span><pre><?php echo $task['description'] ?></pre></p>
             </div>
         </article>
     </article>

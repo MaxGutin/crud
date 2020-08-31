@@ -82,7 +82,8 @@ const SQL_UPDATE_USER_EXTENDED = '
 
 const SQL_DELETE_USER = 'DELETE FROM users WHERE login = :login';
 
-// Tasks section
+
+// ************* Tasks section *****************************
 const SQL_CREATE_TASKS_TABLE = '
 	CREATE TABLE IF NOT EXISTS tasks (
 		id INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -114,6 +115,12 @@ const SQL_UPDATE_TASK = '
     WHERE
       id = :task_id
 ';
+
+const SQL_INSERT_TASK = '
+    INSERT INTO tasks (user_id, header, description)
+    VALUE (:user_id, :header, :description)
+';
+
 
 
 

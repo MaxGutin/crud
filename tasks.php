@@ -33,7 +33,7 @@ try {
 
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col">
-            <a href="user_add.php">
+            <a href="task_add.php">
                 <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                     <i class="material-icons">add</i>
                 </button>
