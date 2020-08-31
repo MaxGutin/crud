@@ -3,23 +3,23 @@ require_once 'includes/db.php';
 require_once 'includes/secure.php';
 require_once 'includes/messages.php';
 try {
-    // delete user
-    if (isset($_GET['delete_user'])) {
-        $stmt = $pdo->prepare(SQL_DELETE_USER);
-        $stmt->bindParam(':login', $_SESSION['user']['login']);
+    // delete task
+    if (isset($_REQUEST['delete_task'])) {
+        $stmt = $pdo->prepare(SQL_DELETE_TASK);
+        $stmt->bindParam(':task_id', $_REQUEST['task_id']);
         $stmt->execute();
-        logout();
     }
+
     // get user list
     $stmt = $pdo->query(SQL_GET_TASKS);
     $stmt->bindParam(':user_id', $_SESSION['user']['id']);
     $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echo '== PDO EXCEPTION (tasks.php): == ' . $e->getMessage();
+    echo '== PDO EXCEPTION (tasks.php): == <pre>' . $e->getMessage() . '</pre>';
 }
 ?>
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>Tasks List</title>
     <?php //include_once 'includes/statistics.html' ?>
@@ -33,7 +33,7 @@ try {
 
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col">
-            <a href="add_user.php">
+            <a href="user_add.php">
                 <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                     <i class="material-icons">add</i>
                 </button>
@@ -56,16 +56,16 @@ try {
                 <tbody>
                 <?php foreach ($tasks as $key => $value) { ?>
                     <tr>
-                        <td><a href="task.php?user=<?php echo $value['id'] ?>"><?php echo $value['id'] ?></a></td> <!-- todo make for admin -->
+                        <td><a href="task.php?task_id=<?php echo $value['id'] ?>"><?php echo $value['id'] ?></a></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['done'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['header'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <a href="edit_user.php?user=<?php echo $value['id'] ?>">
+                            <a href="task_editing.php?task_id=<?php echo $value['id'] ?>">
                                 <i class="material-icons">edit</i>
                             </a>
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <a href="<?php echo $_SERVER['PHP_SELF'] . '?delete_user=&user=' . $value['id']; ?>" >
+                            <a href="<?php echo $_SERVER['PHP_SELF'] . '?delete_task=&task_id=' . $value['id']; ?>" >
                                 <i class="material-icons">delete</i>
                             </a>
                         </td>

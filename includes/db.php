@@ -53,13 +53,13 @@ const SQL_INSERT_USER = '
     VALUE (?,?,?,?,?)
 ';
 
+const SQL_GET_USERS = 'SELECT * FROM users';
+
 const SQL_GET_USER = '
     SELECT id, active, role, full_name, login, email, password
     FROM users
     WHERE login = :login
 ';
-
-const SQL_GET_USERS = 'SELECT * FROM users';
 
 const SQL_UPDATE_USER = '
     UPDATE users
@@ -91,12 +91,32 @@ const SQL_CREATE_TASKS_TABLE = '
 		create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		header VARCHAR(255) NOT NULL,
 		description VARCHAR(1000) NOT NULL,
-		deadline DATETIME NOT NULL,
+		deadline DATETIME NULL,
 		PRIMARY KEY (id)
 	)
 ';
 
 const SQL_GET_TASKS = 'SELECT * FROM tasks WHERE user_id = 1';
+
+const SQL_GET_TASK = '
+    SELECT *
+    FROM tasks
+    WHERE id = :task_id
+';
+
+const SQL_DELETE_TASK = 'DELETE FROM tasks WHERE id = :task_id';
+
+const SQL_UPDATE_TASK = '
+    UPDATE tasks
+    SET
+      header = :header,
+      description = :description
+    WHERE
+      id = :task_id
+';
+
+
+
 
 
 // Debug functions.
