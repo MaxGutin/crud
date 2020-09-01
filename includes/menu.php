@@ -43,8 +43,8 @@
         <span class="mdl-layout-title">PHP CRUD</span>
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link" href="../..">Main</a>
-            <a class="mdl-navigation__link" href="./users.php">Users</a>
-            <a class="mdl-navigation__link" href="./task_list.php">Tasks</a>
+            <a class="mdl-navigation__link" href="./tasks.php">Tasks</a>
+            <a class="mdl-navigation__link" href="./user.php">Profile</a>
             <a class="mdl-list__item-secondary-action" href="?logout"><i class="material-icons">exit_to_app</i></a>
         </nav>
     </div>
