@@ -27,7 +27,7 @@ if ($_SERVER['PHP_SELF'] != '/index.php' AND $_SERVER['PHP_SELF'] != '/sing_up.p
 
             // Activate account check
             if ($user['active'] == 0) {
-                require_once 'includes/menu.html';
+                require_once 'includes/menu.php';
                 ?>
                     <div class="mdl-grid">
                         <div class="mdl-cell mdl-cell--12-col">

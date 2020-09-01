@@ -23,7 +23,7 @@ try {
 <head>
     <title>Tasks List</title>
     <?php //include_once 'includes/statistics.html' ?>
-    <?php include_once 'includes/menu.html' ?>
+    <?php include_once 'includes/menu.php' ?>
 
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col">

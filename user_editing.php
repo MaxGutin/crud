@@ -75,7 +75,7 @@ try {
 <head>
     <?php include_once 'includes/statistics.html' ?>
     <title><?php echo($user['full_name']); ?></title>
-    <?php include_once 'includes/menu.html' ?>
+    <?php include_once 'includes/menu.php' ?>
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
         <h1><?php echo($user['full_name']); ?></h1>

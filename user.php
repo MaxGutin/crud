@@ -15,7 +15,7 @@ try {
     <title>User | <?php echo $user['full_name'] ?></title>
     <?php include_once 'includes/statistics.html' ?>
     <link rel="stylesheet" href="css/print.css" media="print">
-    <?php include_once 'includes/menu.html' ?>
+    <?php include_once 'includes/menu.php' ?>
 
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
