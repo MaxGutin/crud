@@ -25,7 +25,7 @@
             <nav class="mdl-navigation mdl-layout--large-screen-only">
                 <a class="mdl-navigation__link" href="/">Main</a>
                 <a class="mdl-navigation__link" href="./tasks.php">Tasks</a>
-                <a class="mdl-navigation__link" href="./user.php?user=<?php if (isset($_SESSION['user'])) echo $_SESSION['user']['login']; ?>">Profile</a>
+                <a class="mdl-navigation__link" href="./user.php">Profile</a>
                 <a class="mdl-list__item-secondary-action" href="/?logout"><i class="material-icons">exit_to_app</i></a>
             </nav>
 <!--            <div class="demo-list-action mdl-list">

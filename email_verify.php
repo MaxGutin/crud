@@ -30,9 +30,9 @@ if ($_REQUEST) {
 
             // start session
             $_SESSION['user'] = $user;
-            header('Location: user.php?user=' . $user['login']);
+            header('Location: user.php');
         } else echo "Не правильный код активации аккаунта.";
     } catch (PDOException $e) {
         echo '==== PDO Exception =====: ' . $e->getMessage();
     }
-} else header('Location: ./index.php?ver_err');
+} else header('Location: ./index.php?verify_err');
