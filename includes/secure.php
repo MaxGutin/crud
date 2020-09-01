@@ -32,6 +32,7 @@ if ($_SERVER['PHP_SELF'] != '/index.php' AND $_SERVER['PHP_SELF'] != '/sing_up.p
                     <div class="mdl-grid">
                         <div class="mdl-cell mdl-cell--12-col">
                             <h1>Please activate your account</h1>
+                            <p><a href="./code_sender.php">Resend e-mail confirmation.</a></p>
                         </div>
                     </div>
                 <?php

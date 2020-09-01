@@ -31,7 +31,7 @@ const SQL_CREATE_USERS_TABLE = '
 ';
 
 const SQL_LOGIN = '
-    SELECT id, active, role, full_name, login, password
+    SELECT *
     FROM users
     WHERE login = :login
 ';

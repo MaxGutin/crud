@@ -85,22 +85,8 @@ if (isset($_POST['add-user'])) {     // проверка нажатия кноп
 
 
         // отправка письма подтверждения
-        try {
-            $verify_url = $_SERVER['HTTP_HOST'] . '/email_verify.php?' . $verify_code;
-            $to = $form_data['email'];
-            $subject = 'Подтверждение регистрации';
-            $message = 'Для активации вашего аккаунта нажмите на ссылку — ' . $verify_url;
-            $headers = 'From: webmaster@goodman.com' . "\r\n" . 'Reply-To: webmaster@example.com';
-            $mail_result = mail($to, $subject, $message, $headers);
-        } catch (Exception $e) {
-            echo 'EMAIL VERIFICATION ERROR:';
-        }
+        header('Location: code_sender.php');
 
-        // проверка отправки письма
-        if ($mail_result) {
-            // перенаправить на список пользователей
-            header('Location: ./user.php?user=' . $_SESSION['user']['login']);
-        } else echo 'Ошибка отправки письма с кодом подтверждения.';
 
 
     } catch (PDOException $e) {
