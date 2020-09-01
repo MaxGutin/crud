@@ -99,7 +99,7 @@ const SQL_CREATE_TASKS_TABLE = '
 	)
 ';
 
-const SQL_GET_TASKS = 'SELECT * FROM tasks WHERE user_id = 1';
+const SQL_GET_TASKS = 'SELECT * FROM tasks WHERE user_id = :user_id';
 
 const SQL_GET_TASK = '
     SELECT *

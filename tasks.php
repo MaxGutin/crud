@@ -10,9 +10,10 @@ try {
         $stmt->execute();
     }
 
-    // get user list
-    $stmt = $pdo->query(SQL_GET_TASKS);
+    // get tasks of user
+    $stmt = $pdo->prepare(SQL_GET_TASKS);
     $stmt->bindParam(':user_id', $_SESSION['user']['id']);
+    $stmt->execute();
     $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo '== PDO EXCEPTION (tasks.php): == <pre>' . $e->getMessage() . '</pre>';
