@@ -51,7 +51,7 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
 
             if (password_verify($form_data['password'], $user['password'])) { // and check password.
                 $_SESSION['user'] = $user;                                    // If all right create session with user data,
-                header('Location: user.php?user=' . $user['login']);    // and redirect to profile page.
+                header('Location: tasks.php');    // and redirect to profile page.
             } else echo "Wrong password.";
         } else echo "Wrong login.";
 
@@ -65,7 +65,7 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
 <head>
     <title>Авторизация</title>
     <?php //include_once 'includes/statistics.html' ?>
-    <?php include_once 'includes/menu.html' ?>
+    <?php include_once 'includes/menu.php' ?>
         <div class="mdl-grid">
             <div class="mdl-cell mdl-cell--12-col">
                 <h1 class="mdl-typography--text-center">PHP CRUD</h1>

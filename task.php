@@ -24,7 +24,7 @@ try {
     <title><?= $_SESSION['user']['full_name'] ?> | <?php echo $task['header'] ?></title>
     <?php //include_once 'includes/statistics.html' ?>
     <link rel="stylesheet" href="css/print.css" media="print">
-    <?php include_once 'includes/menu.html' ?>
+    <?php include_once 'includes/menu.php' ?>
 
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col">
@@ -33,7 +33,7 @@ try {
     </div>
     <div class="mdl-grid" id="buttons">
         <div class="mdl-cell mdl-cell--12-col">
-            <a href="./tasks.php?task_id=<?php echo $task['id'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Edit</button></a>
+            <a href="./task_editing.php?task_id=<?php echo $task['id'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Edit</button></a>
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="window.print();">Print</button>
             <a class="mdl-button mdl-js-button mdl-button--raised"  href="./tasks.php">Abort</a>
             <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
