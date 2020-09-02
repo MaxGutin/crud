@@ -89,12 +89,12 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
                             </div>
                             <div class="mdl-card__actions">
                                 <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-                                        type="submit" name="do-login">
-                                    LOG IN
-                                </button>
+                                        type="submit" name="do-login">LOG IN</button>
                                 <a href="sing_up.php" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                                    SING UP
-                                </a>
+                                    SING UP</a>
+                                <br>
+                                <br>
+                                <a href="password_reset.php">Forgot your password?</a>
                             </div>
                         </form>
                     </div>
