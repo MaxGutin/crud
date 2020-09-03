@@ -23,7 +23,7 @@ const SQL_CREATE_USERS_TABLE = '
 		role VARCHAR(50) NOT NULL DEFAULT \'user\',
 		full_name VARCHAR(255) NOT NULL,
 		login VARCHAR(255) NOT NULL UNIQUE,
-		email VARCHAR(255) NOT NULL,
+		email VARCHAR(255) NOT NULL UNIQUE,
 		password VARCHAR(255) NOT NULL,
 		verify_code CHAR(32) NOT NULL,
 		PRIMARY KEY (id)
@@ -34,6 +34,18 @@ const SQL_LOGIN = '
     SELECT *
     FROM users
     WHERE login = :login
+';
+
+const SQL_EMAIL = '
+    SELECT *
+    FROM users
+    WHERE email = :email
+';
+
+const SQL_PASSWORD = '
+    SELECT *
+    FROM users
+    WHERE password = :password
 ';
 
 const SQL_VERIFY_CODE = '
@@ -67,6 +79,15 @@ const SQL_UPDATE_USER = '
     SET
       full_name = :full_name,
       email = :email
+    WHERE
+      login = :login
+';
+
+
+const SQL_UPDATE_UPASSWORD = '
+    UPDATE users
+    SET
+      password = :password
     WHERE
       login = :login
 ';
