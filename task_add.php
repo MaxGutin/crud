@@ -48,7 +48,7 @@ if (isset($_POST['add-user'])) {
         <div class="mdl-cell mdl-cell--12-col">
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add-user" name="add-user">Save</button>
             <button class="mdl-button mdl-js-button mdl-button--raised" type="reset" form="add_user">Clean</button>
-            <a      class="mdl-button mdl-js-button mdl-button--raised" href="tasks.php">Abort</a>
+            <a      class="mdl-button mdl-js-button mdl-button--raised" href="tasks.php">Cancel</a>
         </div>
     </div>
     <article class="mdl-grid main-content">

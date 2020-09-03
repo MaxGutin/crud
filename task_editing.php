@@ -57,7 +57,7 @@ require_once 'includes/validate.php';
         <div class="mdl-cell mdl-cell--12-col">
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
                     form="edit_task" type="submit" name="update_task">Save</button>
-            <a class="mdl-button mdl-js-button mdl-button--raised" href="tasks.php">Abort</a>
+            <a class="mdl-button mdl-js-button mdl-button--raised" href="tasks.php">Cancel</a>
         </div>
     </div>
     <article class="mdl-grid main-content">

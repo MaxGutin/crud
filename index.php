@@ -32,9 +32,9 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
         'password' => $_POST['password']
     );
 
-// Validation
+    // Validation
     $form_data = clean($form_data); // clean() locate in validate.php
-// Validation end
+
 
 
     // Finding matches in DB
@@ -63,7 +63,7 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Авторизация</title>
+    <title>Sing In</title>
     <?php //include_once 'includes/statistics.html' ?>
     <?php include_once 'includes/menu.php' ?>
         <div class="mdl-grid">
@@ -94,7 +94,7 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
                                     SING UP</a>
                                 <br>
                                 <br>
-                                <a href="password_reset.php">Forgot your password?</a>
+                                <a href="password_reset.php">Password recovery</a>
                             </div>
                         </form>
                     </div>
