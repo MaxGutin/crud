@@ -18,7 +18,7 @@ if (isset($_POST['add-user'])) {     // проверка нажатия кноп
         'password' => $_POST['password']
     ];
 
-// Validation
+    // Validation
     // Проверка совпадения введённых паролей
     if ($form_data['password'] !== $_POST['password_confirm']) exit('Введённые пароли не совпали.');
 
@@ -47,19 +47,26 @@ if (isset($_POST['add-user'])) {     // проверка нажатия кноп
     if (!$email_validate) {
         exit('Enter correct e-mail.');
     }
-// Validation end
+    // Validation end
 
     // Finding matches in DB
     try {
-        // Preparation
         $stmt = $pdo->prepare(SQL_LOGIN);                         // prepare — Подготавливает SQL-запрос к выполнению
         $stmt->bindParam(':login', $form_data['login']); // bindParam — Привязывает значение переменной к параметру SQL-запроса
         $stmt->execute();                                       // execute — выполняет подготовленный запрос и возвращает результат
         $user_count = $stmt->rowCount();
 
-        // Check
-        if ($user_count > 0 ) {                                            // если логин не найден
-            exit('Пользователь с таким логином уже существует!');          // завершаем работу скрипта
+        if ($user_count > 0 ) {                                            // если логин найден
+            exit('Login already exists!');          // завершаем работу скрипта
+        }
+
+        $stmt = $pdo->prepare(SQL_EMAIL);                         // prepare — Подготавливает SQL-запрос к выполнению
+        $stmt->bindParam(':email', $form_data['email']); // bindParam — Привязывает значение переменной к параметру SQL-запроса
+        $stmt->execute();                                       // execute — выполняет подготовленный запрос и возвращает результат
+        $user_count = $stmt->rowCount();
+
+        if ($user_count > 0 ) {                                            // если email найден
+            exit('E-mail already exists.');          // завершаем работу скрипта
         }
 
 
@@ -114,7 +121,7 @@ if (isset($_POST['add-user'])) {     // проверка нажатия кноп
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add-user">Sing Up</button>
         <button class="mdl-button mdl-js-button mdl-button--raised" type="reset" form="add_user">Clean</button>
 <!--        <button class="mdl-button mdl-js-button mdl-button--raised" type="submit" form="add_user" name="abort">Отмена</button>-->
-        <a class="mdl-button mdl-js-button mdl-button--raised" href="index.php">Abort</a>
+        <a class="mdl-button mdl-js-button mdl-button--raised" href="index.php">Cancel</a>
     </div>
 </div>
 <article class="mdl-grid main-content">

@@ -13,9 +13,25 @@ try {
                 'email' => $_POST['email']
             );
 
-// Validation
+            // Validation
             $form_data = clean($form_data); // clean() locate in validate.php
-// Validation end
+            // проверка на пустые значения
+            if(empty($form_data['full_name']) OR empty($form_data['email'])) {
+                exit('Заполните все значения.');
+            }
+
+            // валидация эл. почты
+            $email_validate = filter_var($form_data['email'], FILTER_VALIDATE_EMAIL);
+
+
+            // проверка длинны данных
+            if (!check_length($form_data['full_name'], 2, 255)) {
+                exit('Name long must be between 2 and 255 characters.');
+            }
+            if (!$email_validate) {
+                exit('Enter correct e-mail.');
+            }
+            // Validation end
 
 
             // update DB
@@ -34,10 +50,9 @@ try {
                 'password' => $_POST['password']
             );
 
-// Validation
+            // Validation
             $form_data = clean($form_data); // clean() locate in validate.php
-// Validation end
-
+// todo доделай валидацию
 
             if ($form_data['password'] == $_POST['password_confirm']) {
                 // password hashing
@@ -56,6 +71,8 @@ try {
                 $stmt->bindParam(':login',      $_SESSION['user']['login']);
                 $stmt->execute();
                 header('Location: ./user.php?user=' . $_SESSION['user']['login']);
+            } else {
+                exit('Введённые пароли не совпали.');
             }
 
         }

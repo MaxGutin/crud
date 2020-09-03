@@ -1,10 +1,15 @@
 <?php
+/*
+ * Check session
+ * Ask user's full_name, login, email, password
+ * update user data, redirect to profile
+ * */
 require_once 'includes/db.php';
 require_once 'includes/secure.php';
 require_once 'includes/validate.php';
+
 if (isset($_REQUEST['add-user'])) {
 
-    // переносим данные формы в массив
     $form_data = [
         'full_name' => $_POST['full_name'],
         'login' => $_POST['login'],
@@ -12,11 +17,34 @@ if (isset($_REQUEST['add-user'])) {
         'password' => $_POST['password']
     ];
 
+    // Validation
+    if ($form_data['password'] !== $_POST['password_confirm']) exit('The entered passwords do not match.');
 
-// Validation
     $form_data = clean($form_data); // clean() locate in validate.php
-    // todo Add password check like in singup page.
-// Validation end
+
+    // проверка на пустые значения
+    if(empty($form_data['full_name']) OR empty($form_data['login']) OR empty($form_data['email']) OR empty($form_data['password'])) {
+        exit('Заполните все значения.');
+    }
+
+    // валидация эл. почты
+    $email_validate = filter_var($form_data['email'], FILTER_VALIDATE_EMAIL);
+
+
+    // проверка длинны данных
+    if (!check_length($form_data['full_name'], 2, 255)) {
+        exit('Name long must be between 2 and 255 characters.');
+    }
+    if (!check_length($form_data['login'], 2, 64)) {
+        exit('Login long must be between 2 and 64 characters.');
+    }
+    if (!check_length($form_data['password'], 2, 64)) {
+        exit('Password long must be between 2 and 255 characters.');
+    }
+    if (!$email_validate) {
+        exit('Enter correct e-mail.');
+    }
+    // Validation end
 
     // Finding matches in DB
     try {
@@ -57,7 +85,7 @@ if (isset($_REQUEST['add-user'])) {
     <div class="mdl-cell mdl-cell--12-col">
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" form="add_user" name="add-user">Save</button>
         <button class="mdl-button mdl-js-button mdl-button--raised" type="reset" form="add_user">Clean</button>
-        <a      class="mdl-button mdl-js-button mdl-button--raised" href="users.php">Abort</a>
+        <a      class="mdl-button mdl-js-button mdl-button--raised" href="users.php">Cancel</a>
     </div>
 </div>
 <article class="mdl-grid main-content">
@@ -91,6 +119,11 @@ if (isset($_REQUEST['add-user'])) {
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="password" id="password" name="password" required>
                 <label class="mdl-textfield__label" for="password">password</label>
+            </div>
+            <br>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="password" id="password_confirm" name="password_confirm" required>
+                <label class="mdl-textfield__label" for="password_confirm">password</label>
             </div>
             <br>
         </form>
