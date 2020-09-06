@@ -6,9 +6,9 @@ try {
     // delete user
     if (isset($_GET['delete_user'])) {
         $stmt = $pdo->prepare(SQL_DELETE_USER);
-        $stmt->bindParam(':login', $_SESSION['user']['login']);
+        $stmt->bindParam(':login', $_REQUEST['user']);
         $stmt->execute();
-        logout();
+//        header('Location: index.php?left');
     }
     // get user list
     $stmt = $pdo->query(SQL_GET_USERS);
