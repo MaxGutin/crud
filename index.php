@@ -52,8 +52,8 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
             if (password_verify($form_data['password'], $user['password'])) { // and check password.
                 $_SESSION['user'] = $user;                                    // If all right create session with user data,
                 header('Location: tasks.php');    // and redirect to profile page.
-            } else echo "Wrong password.";
-        } else echo "Wrong login.";
+            } else echo "Wrong login or password.";
+        } else echo "Wrong login or password.";
 
     } catch (PDOException $e) {
         echo '====CATCH=====: ' . $e->getMessage();
@@ -80,7 +80,7 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
                     <div class="mdl-card__supporting-text">
                         <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input class="mdl-textfield__input" type="text" id="login" name="login">
+                                <input class="mdl-textfield__input" type="text" id="login" name="login" autofocus>
                                 <label class="mdl-textfield__label" for="login">login</label>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
