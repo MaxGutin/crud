@@ -1,7 +1,17 @@
 <?php
-/* Logout function,
- *
+/*
+ * Requested data:
+ *      login, password
+ * Loaded data:
+ *      id, login, password, role, full_name, login, email, password, verify_code
+ * Constants:
+ *      SQL_LOGIN
+ * Features:
+ *      Logout, Redirect if session is active,
+ *      Validation, Login, Session initialize,
+ *      Redirect.
  */
+
 session_start();
 // Logout function
 function logout()
@@ -12,11 +22,12 @@ function logout()
     session_destroy();
     header('Location: index.php?left');
 }
+
 if (isset($_REQUEST['logout'])) {
     logout();
 }
 
-// перенаправление на страницу профиля при активной сессии
+// Redirect if session is active
 if (isset($_SESSION['user']['login'])) {
     header('Location: user.php?user=' . $_SESSION['user']['login']);
 }
@@ -24,9 +35,8 @@ if (isset($_SESSION['user']['login'])) {
 require_once 'includes/db.php';
 require_once 'includes/validate.php';
 
-if (isset($_POST['do-login'])) {    // проверка нажатия кнопки ВХОД
+if (isset($_POST['do-login'])) {
 
-    // переносим данные формы в массив
     $form_data = array(
         'login' => $_POST['login'],
         'password' => $_POST['password']
@@ -35,28 +45,26 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
     // Validation
     $form_data = clean($form_data); // clean() locate in validate.php
 
-
-
-    // Finding matches in DB
+    // Login
     try {
-        // Preparation
         $stmt = $pdo->prepare(SQL_LOGIN);                         // prepare — preparation SQL-request to perform.
-        $stmt->bindParam(':login', $form_data['login']); // bindParam — associate SQL-request and POST-variable.
+        $stmt->bindParam(':login', $form_data['login']); // bindParam — associate SQL-request and variable.
         $result = $stmt->execute();                                       // execute — perform prepare request.
         $user_count = $stmt->rowCount();                                  // rowCount() - returns the number of rows.
 
         // Check
-        if ($user_count > 0) {                                                // if count of found rows more than one,
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);                  // extract data,
+        if ($user_count > 0) {                                             // if count of found rows more than one,
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);               // extract data,
 
             if (password_verify($form_data['password'], $user['password'])) { // and check password.
-                $_SESSION['user'] = $user;                                    // If all right create session with user data,
-                header('Location: tasks.php');    // and redirect to profile page.
+                $_SESSION['user'] = $user;                                    // If all right, create session with user data,
+                header('Location: tasks.php');    // and redirect to task list page.
             } else echo "Wrong login or password.";
+
         } else echo "Wrong login or password.";
 
     } catch (PDOException $e) {
-        echo '====CATCH=====: ' . $e->getMessage();
+        echo '= PDO EXCEPTION: =' . $e->getMessage();
     }
 }
 ?>
@@ -64,8 +72,8 @@ if (isset($_POST['do-login'])) {    // проверка нажатия кноп�
 <html lang="en">
 <head>
     <title>Sing In</title>
-    <?php //include_once 'includes/statistics.html' ?>
-    <?php include_once 'includes/menu.php' ?>
+<?php include_once 'includes/statistics.html' ?>
+<?php include_once 'includes/menu.php' ?>
         <div class="mdl-grid">
             <div class="mdl-cell mdl-cell--12-col">
                 <h1 class="mdl-typography--text-center">PHP CRUD</h1>
