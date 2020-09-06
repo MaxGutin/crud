@@ -64,7 +64,7 @@ if (isset($_POST['add-user'])) {
                 <br>
 
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="text" id="header" name="header">
+                    <input class="mdl-textfield__input" type="text" id="header" name="header" autofocus>
                     <label class="mdl-textfield__label" for="header">name</label>
                 </div>
                 <br>
