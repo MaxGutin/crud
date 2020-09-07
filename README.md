@@ -97,3 +97,11 @@ checks: free login
 
 Везде, где нужно подключение к БД включаем db.php
 На все страницы которые нужно защитить авторизацией добавляем secure.php 
+
+поставить отграничение длинны на заголовок задачи	edit	delete
+check_circle_outline	убрать ID задач и секбоксы в списке	edit	delete
+panorama_fish_eye	сделать файл импота БД	edit	delete
+panorama_fish_eye	менять статус задани из списка	edit	delete
+panorama_fish_eye	уменьщить отступ заголовка	edit	delete
+panorama_fish_eye	прикрути куки	edit	delete
+panorama_fish_eye	сделать ссылку на логотипе
