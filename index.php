@@ -57,14 +57,30 @@ if (isset($_POST['do-login'])) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);               // extract data,
 
             if (password_verify($form_data['password'], $user['password'])) { // and check password.
-                $_SESSION['user'] = $user;                                    // If all right, create session with user data,
+
+                // Cookie - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                // make token
+                $user['token'] = md5(random_bytes(20));
+                // Addition new user's token to DB
+                $stmt = $pdo->prepare(SQL_NEW_TOKEN);
+                $stmt ->bindParam(':login', $user['login']);
+                $stmt ->bindParam(':token', $user['token']);
+                $result = $stmt->execute();
+                // make cookie
+                setcookie('login', $user['login'], time()+60*60*24*7); // time to leave login - 7 days
+                setcookie('token', $user['token'], time()+60*60*24*7); // time to live token - 7 days
+                // Make session
+                $_SESSION['user'] = $user;              // If all right, create session with user data,
                 header('Location: tasks.php');    // and redirect to task list page.
+
             } else echo "Wrong login or password.";
 
         } else echo "Wrong login or password.";
 
     } catch (PDOException $e) {
         echo '= PDO EXCEPTION: =' . $e->getMessage();
+    } catch (Exception $e) {
+        echo '= EXCEPTION: =' . $e->getMessage(); // for random_bytes()
     }
 }
 ?>

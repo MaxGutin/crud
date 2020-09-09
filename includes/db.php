@@ -26,6 +26,7 @@ const SQL_CREATE_USERS_TABLE = '
 		email VARCHAR(255) NOT NULL UNIQUE,
 		password VARCHAR(255) NOT NULL,
 		verify_code CHAR(32) NOT NULL,
+		token CHAR(32) NOT NULL,
 		PRIMARY KEY (id)
 	)
 ';
@@ -64,6 +65,13 @@ const SQL_ACTIVATE_USER = '
 const SQL_INSERT_USER = '
     INSERT INTO users (full_name, login, email, password, verify_code)
     VALUE (?,?,?,?,?)
+';
+
+const SQL_NEW_TOKEN = '
+    UPDATE users SET
+      token = :token
+    WHERE
+      login = :login
 ';
 
 const SQL_GET_USERS = 'SELECT * FROM users';
