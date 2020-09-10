@@ -24,6 +24,7 @@ require_once 'includes/validate.php';
 
 if (isset($_POST['add-user'])) {
 
+    // Validation  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     $form_data = [
         'full_name' => $_POST['full_name'],
         'login' => $_POST['login'],
@@ -31,7 +32,6 @@ if (isset($_POST['add-user'])) {
         'password' => $_POST['password']
     ];
 
-// Validation ------------------------------
     // Checking if the entered passwords match
     if ($form_data['password'] !== $_POST['password_confirm']) exit('Введённые пароли не совпали.');
 
@@ -59,7 +59,7 @@ if (isset($_POST['add-user'])) {
     if (!$email_validate) {
         exit('Enter correct e-mail.');
     }
-    // Validation end --------------------------
+    // End Validation - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     try {
         // Checking an existing login
@@ -95,6 +95,18 @@ if (isset($_POST['add-user'])) {
         $stmt = $pdo->prepare(SQL_INSERT_USER);
         $stmt->execute(array_values($form_data));
 
+        // Cookie - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        // make token
+        $token = md5(random_bytes(20));
+        // Addition new user's token to DB
+        $stmt = $pdo->prepare(SQL_NEW_TOKEN);
+        $stmt ->bindParam(':login', $form_data['login']);
+        $stmt ->bindParam(':token', $token);
+        $result = $stmt->execute();
+        // make cookie
+        setcookie('login', $form_data['login'], time()+60*60*24*7); // time to leave login - 7 days
+        setcookie('token', $token, time()+60*60*24*7); // time to live token - 7 days
+        // Make session
         // Session initialize
         $_SESSION['user'] = $form_data;
 

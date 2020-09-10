@@ -12,9 +12,9 @@ require_once 'includes/validate.php';
             'description' => $_POST['description']
         );
 
-        // Validation
+        // Validation - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         $form_data = clean($form_data); // clean() locate in validate.php
-        // Validation end
+        // End Validation - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         // update DB
         $stmt = $pdo->prepare(SQL_UPDATE_TASK);
@@ -38,7 +38,7 @@ require_once 'includes/validate.php';
         }
 
     } catch (PDOException $e) {
-        echo '== PDO EXCEPTION (task_editing.php) == : <pre>' . $e->getMessage() . '</pre>';
+        echo '== PDO EXCEPTION (task_edit.php) == : <pre>' . $e->getMessage() . '</pre>';
     }
 ?>
 <!DOCTYPE html>

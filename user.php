@@ -24,7 +24,7 @@ try {
 </div>
 <div class="mdl-grid" id="buttons">
     <div class="mdl-cell mdl-cell--12-col">
-        <a href="user_editing.php?user=<? echo $user['login'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Edit</button></a>
+        <a href="user_edit.php?user=<? echo $user['login'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Edit</button></a>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="window.print();">Print</button>
         <a class="mdl-button mdl-js-button mdl-button--raised"  href="./users.php">Cancel</a>
         <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" href="users.php?delete_user">Delete</a>

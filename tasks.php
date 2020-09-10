@@ -70,7 +70,7 @@ try {
                             <a href="task.php?task_id=<?php echo $value['id'] ?>"><?php echo $value['header'] ?></a>
                         </td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <a href="task_editing.php?task_id=<?php echo $value['id'] ?>">
+                            <a href="task_edit.php?task_id=<?php echo $value['id'] ?>">
                                 <i class="material-icons">edit</i>
                             </a>
                         </td>
