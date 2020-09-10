@@ -1,5 +1,6 @@
 
     <meta charset="UTF-8">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="author" content="Max Gutin">
     <meta name="description" content="Web-developer Max Gutin. HTML, CSS, PHP, MySQL.">
     <meta name="keywords" content="Max Gutin, web-developer, html, css, php, mysql">
