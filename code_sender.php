@@ -7,7 +7,7 @@ try {
 
     $to = $_SESSION['user']['email'];
     $subject = 'Подтверждение регистрации';
-    $message = 'Для активации вашего аккаунта нажмите на ссылку — ' . $verify_url;
+    $message = "Активировать аккаунт <br>" . "<a href='" . $verify_url . "'> → нажми на меня ← </a>";
     $headers = "MIME-Version: 1.0\r\n" . "Content-type: text/html; charset=utf-8\r\n" .
                "From: webmaster@gutin.com\r\n" . "Reply-To: webmaster@gutin.com\r\n";
     $mail_result = mail($to, $subject, $message, iconv ('utf-8', 'windows-1251', $headers));
