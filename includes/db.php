@@ -56,7 +56,7 @@ const SQL_PASSWORD = '
 ';
 
 const SQL_VERIFY_CODE = '
-    SELECT id, role, full_name, login, password, verify_code
+    SELECT *
     FROM users
     WHERE verify_code = :verify_code
 ';
