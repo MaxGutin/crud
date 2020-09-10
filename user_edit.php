@@ -52,15 +52,15 @@ try {
             $stmt->execute();
             header('Location: ./user.php?user=' . $_SESSION['user']['login']);
 
+        // password was edit
         } else {
-            // password was edit
+
+            // Validation - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             $form_data = array(
                 'full_name' => $_POST['full_name'],
                 'email' => $_POST['email'],
                 'password' => $_POST['password']
             );
-
-            // Validation - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             $form_data = clean($form_data); // clean() locate in validate.php
 
             // E-mail validation
