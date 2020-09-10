@@ -59,7 +59,7 @@ try {
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['full_name'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $value['role'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            <a href="user_editing.php?user=<?php echo $value['login'] ?>">
+                            <a href="user_edit.php?user=<?php echo $value['login'] ?>">
                                 <i class="material-icons">edit</i>
                             </a>
                         </td>

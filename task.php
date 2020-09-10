@@ -33,7 +33,7 @@ try {
     </div>
     <div class="mdl-grid" id="buttons">
         <div class="mdl-cell mdl-cell--12-col">
-            <a href="./task_editing.php?task_id=<?php echo $task['id'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Edit</button></a>
+            <a href="task_edit.php?task_id=<?php echo $task['id'] ?>"><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Edit</button></a>
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="window.print();">Print</button>
             <a class="mdl-button mdl-js-button mdl-button--raised"  href="./tasks.php">Cancel</a>
             <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"

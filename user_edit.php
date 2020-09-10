@@ -8,13 +8,14 @@ try {
         // password was not edit
         if ($_POST['password'] == '') {
 
+            // Validation - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             $form_data = array(
                 'full_name' => $_POST['full_name'],
                 'email' => $_POST['email']
             );
 
-            // Validation
             $form_data = clean($form_data); // clean() locate in validate.php
+
             // проверка на пустые значения
             if(empty($form_data['full_name']) OR empty($form_data['email'])) {
                 exit('Заполните все значения.');
@@ -23,7 +24,6 @@ try {
             // валидация эл. почты
             $email_validate = filter_var($form_data['email'], FILTER_VALIDATE_EMAIL);
 
-
             // проверка длинны данных
             if (!check_length($form_data['full_name'], 2, 255)) {
                 exit('Name long must be between 2 and 255 characters.');
@@ -31,8 +31,18 @@ try {
             if (!$email_validate) {
                 exit('Enter correct e-mail.');
             }
-            // Validation end
+            // End Validation - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+            // Checking an existing e-mail
+            if ($_SESSION['user']['email'] != $form_data['email']) {
+                $stmt = $pdo->prepare(SQL_EMAIL);
+                $stmt->bindParam(':email', $form_data['email']);
+                $stmt->execute();
+                $user_count = $stmt->rowCount();
+                if ($user_count > 0 ) {
+                    exit('E-mail already exists.');
+                }
+            }
 
             // update DB
             $stmt = $pdo->prepare(SQL_UPDATE_USER);
@@ -50,9 +60,34 @@ try {
                 'password' => $_POST['password']
             );
 
-            // Validation
+            // Validation - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             $form_data = clean($form_data); // clean() locate in validate.php
-// todo доделай валидацию
+
+            // E-mail validation
+            $email_validate = filter_var($form_data['email'], FILTER_VALIDATE_EMAIL);
+
+            // Data length check
+            if (!check_length($form_data['full_name'], 2, 255)) {
+                exit('Name long must be between 2 and 255 characters.');
+            }
+            if (!check_length($form_data['password'], 2, 64)) {
+                exit('Password long must be between 2 and 255 characters.');
+            }
+            if (!$email_validate) {
+                exit('Enter correct e-mail.');
+            }
+            // End Validation - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+            // Checking an existing e-mail
+            if ($_SESSION['user']['email'] != $form_data['email']) {
+                $stmt = $pdo->prepare(SQL_EMAIL);
+                $stmt->bindParam(':email', $form_data['email']);
+                $stmt->execute();
+                $user_count = $stmt->rowCount();
+                if ($user_count > 0 ) {
+                    exit('E-mail already exists.');
+                }
+            }
 
             if ($form_data['password'] == $_POST['password_confirm']) {
                 // password hashing
@@ -74,10 +109,7 @@ try {
             } else {
                 exit('Введённые пароли не совпали.');
             }
-
         }
-
-
     }
     $stmt = $pdo->prepare(SQL_GET_USER);
     $stmt->execute([':login' => $_SESSION['user']['login']]);
