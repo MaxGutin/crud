@@ -1,47 +1,52 @@
 <?php
 /* This file contains:
- * Session authentication,  Activate account check.
+ * Session and Cookies authentication,  Activate account check.
  */
 
 session_start();
 
-// проверяем что сессия принадлежит пользователю
-if ($_SERVER['PHP_SELF'] != '/index.php' AND $_SERVER['PHP_SELF'] != '/sing_up.php') {  // проверяем что мы не на странице авторизации или регистрации
+// Session and Cookies authentication - - - - - - - - - - - - - - - - - - - - -
 
-    if (empty($_SESSION['user']['login']) OR $_SESSION['user']['login'] == null) header('Location: index.php?empty_session');     // если сессия отсутствует
+// if session is empty
+if (empty($_SESSION['user']['login']) OR $_SESSION['user']['login'] == null) {
 
-    // Finding matches in DB
-    try {
-        // Preparation
-        $stmt = $pdo->prepare(SQL_LOGIN);
-        $stmt->bindParam(':login', $_SESSION['user']['login']);
-        $result = $stmt->execute();
-        $user_count = $stmt->rowCount();
+    // if cookie is empty
+    if (empty($_COOKIE['login']) OR empty($_COOKIE['token'])) {
+        header('Location: index.php?empty_cookie');
+    } else {
 
-        // Check
-        if ($user_count > 0) {
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);                // если пользователь найден
-            if ($_SESSION['user']['password'] !== $user['password']) {      // если пароли не совпадают, то ...
-                header('Location: index.php?log-err');                // отправляем на авторизацию
+        // Make session
+        try {
+            $stmt = $pdo->prepare(SQL_MAKE_SESSION);
+            $stmt->bindParam(':login', $_COOKIE['login']);
+            $stmt->bindParam(':token', $_COOKIE['token']);
+            $result = $stmt->execute();
+            $user_count = $stmt->rowCount();
+
+            if ($user_count > 0) {
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                $_SESSION['user'] = $user;  // Make session
+            } else {
+                // When cookies not find in DB
+                header('Location: index.php?empty_session');
             }
-
-            // Activate account check
-            if ($user['active'] == 0) {
-                require_once 'includes/menu.php';
-                ?>
-                    <div class="mdl-grid">
-                        <div class="mdl-cell mdl-cell--12-col">
-                            <h1>Please activate your account</h1>
-                            <p><a href="./code_sender.php">Resend e-mail confirmation.</a></p>
-                        </div>
-                    </div>
-                <?php
-                require_once 'includes/footer.html';
-                exit;
-            }
+        } catch (PDOException $e) {
+            echo '= PDO EXCEPTION: =' . $e->getMessage();
         }
-
-    } catch (PDOException $e) {
-        echo '=== SESSION EXCEPTION ===  ' . $e->getMessage();
     }
+} // End Session and Cookies authentication - - - - - - - - - - - - - - - - - -
+
+// Activate account check
+if ($_SESSION['user']['active'] == 0) {
+    require_once 'includes/menu.php';
+    ?>
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col">
+            <h1>Please activate your account</h1>
+            <p><a href="./code_sender.php">Resend e-mail confirmation.</a></p>
+        </div>
+    </div>
+    <?php
+    require_once 'includes/footer.html';
+    exit;
 }

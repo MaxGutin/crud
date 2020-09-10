@@ -37,6 +37,12 @@ const SQL_LOGIN = '
     WHERE login = :login
 ';
 
+const SQL_MAKE_SESSION = '
+    SELECT *
+    FROM users
+    WHERE login = :login AND token = :token
+';
+
 const SQL_EMAIL = '
     SELECT *
     FROM users

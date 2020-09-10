@@ -18,8 +18,11 @@ function logout()
 {
     $_SESSION = array();
     unset($_SESSION[session_name()]);
-    unset($_COOKIE[session_name()]);
     session_destroy();
+    unset($_COOKIE['login']);
+    unset($_COOKIE['token']);
+    setcookie('login', '', time()-3600);
+    setcookie('token', '', time()-3600);
     header('Location: index.php?left');
 }
 
@@ -28,8 +31,8 @@ if (isset($_REQUEST['logout'])) {
 }
 
 // Redirect if session is active
-if (isset($_SESSION['user']['login'])) {
-    header('Location: user.php?user=' . $_SESSION['user']['login']);
+if (isset($_SESSION['user']['login']) OR isset($_COOKIE['login'])) {
+    header('Location: tasks.php');
 }
 
 require_once 'includes/db.php';
@@ -69,6 +72,8 @@ if (isset($_POST['do-login'])) {
                 // make cookie
                 setcookie('login', $user['login'], time()+60*60*24*7); // time to leave login - 7 days
                 setcookie('token', $user['token'], time()+60*60*24*7); // time to live token - 7 days
+                // Cookie end - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
                 // Make session
                 $_SESSION['user'] = $user;              // If all right, create session with user data,
                 header('Location: tasks.php');    // and redirect to task list page.

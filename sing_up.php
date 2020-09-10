@@ -24,6 +24,7 @@ require_once 'includes/validate.php';
 
 if (isset($_POST['add-user'])) {
 
+    // Validation  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     $form_data = [
         'full_name' => $_POST['full_name'],
         'login' => $_POST['login'],
@@ -31,7 +32,6 @@ if (isset($_POST['add-user'])) {
         'password' => $_POST['password']
     ];
 
-// Validation ------------------------------
     // Checking if the entered passwords match
     if ($form_data['password'] !== $_POST['password_confirm']) exit('Введённые пароли не совпали.');
 
@@ -59,7 +59,7 @@ if (isset($_POST['add-user'])) {
     if (!$email_validate) {
         exit('Enter correct e-mail.');
     }
-    // Validation end --------------------------
+    // End Validation - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     try {
         // Checking an existing login

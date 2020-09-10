@@ -8,6 +8,20 @@ require_once '../includes/db.php';
 //}
 //phpinfo();
 
-$test = 'Text';
+//$test = 'Text';
 //setcookie('COOKIE', $test);
+
+//setcookie('COOKIE', '', time()-3600);
+//unset($_COOKIE['COOKIE']);
+
+//unset($_COOKIE['login']);
+//unset($_COOKIE['token']);
+//setcookie('login', '', time()-3600);
+//setcookie('token', '', time()-3600);
+
+session_start();
+tester2($_SESSION);
 tester2($_COOKIE);
+
+//session_destroy();
+
