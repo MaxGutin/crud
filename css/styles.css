@@ -25,3 +25,7 @@ div.small_whith {
 body {
     position: relative;
 }
+a.clean-link {
+    text-decoration: none;
+    color: #e8e6e3;
+}
