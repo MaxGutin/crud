@@ -3,14 +3,14 @@
  * DB connection object (PDO), SQL-constants, debug functions.
  */
 
-$dsn = 'mysql:host=localhost;dbname=crud';
+$dsn = 'mysql:host=localhost;dbname=todolist;charset=utf8';
 $db_user = 'root';
 $db_password = 'root';
 try {                                                                           // подключение перехвата исключений
     $pdo = new PDO($dsn, $db_user, $db_password);                               // инициализация объекта PDO и вставка данных для подключения
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // настройка обработки ошибок
 } catch (PDOException $e) {                                                     // вывод исключений
-    print '= Error connection: = ' . $e->getMessage();                              // вывод ошибок подключения
+    print '= Error connection: (db.php) = ' . $e->getMessage();                              // вывод ошибок подключения
 }
 
 
