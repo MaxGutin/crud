@@ -95,11 +95,6 @@ if (isset($_POST['do-login'])) {
     <title>Sing In</title>
 <?php include_once 'includes/statistics.html' ?>
 <?php include_once 'includes/menu.php' ?>
-        <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--12-col">
-                <h1 class="mdl-typography--text-center">PHP CRUD</h1>
-            </div>
-        </div>
         <article class="mdl-grid main-content">
             <div class="mdl-cell mdl-cell--12-col">
                 <div class="mdl-card mdl-shadow--2dp">
