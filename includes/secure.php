@@ -28,12 +28,13 @@ if (empty($_SESSION['user']['login']) OR $_SESSION['user']['login'] == null) {
                 $_SESSION['user'] = $user;  // Make session
             } else {
                 // When cookies not find in DB
-                header('Location: index.php?empty_session');
+                header('Location: index.php?logout&wrong_cookie');
             }
         } catch (PDOException $e) {
             echo '= PDO EXCEPTION: =' . $e->getMessage();
         }
     }
+    // todo Проверку соответствия токена на девайсе с токеном в БД. Для работы с разных девайсов. Наверно нужна ещё одна таблица для хранения токенов с привязкой к учётке.
 } // End Session and Cookies authentication - - - - - - - - - - - - - - - - - -
 
 // Activate account check
