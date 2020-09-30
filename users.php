@@ -31,7 +31,7 @@ try {
 </div>
 
 <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--12-col">
+    <div class="mdl-cell mdl-cell--12-col remove-margins">
         <a href="user_add.php">
             <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                 <i class="material-icons">add</i>

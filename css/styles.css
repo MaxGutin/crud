@@ -24,8 +24,12 @@ div.small_whith {
 }
 body {
     position: relative;
+    /*background-color: #181a1b;*/
 }
 a.clean-link {
     text-decoration: none;
-    color: #e8e6e3;
+    color: #e8e6e3 !important;
+}
+h1, .remove-margins {
+    margin: 0 0 !important;
 }
