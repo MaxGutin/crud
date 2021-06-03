@@ -46,7 +46,7 @@ if (isset($_POST['do-login'])) {
     );
 
     // Validation
-    $form_data = clean($form_data); // clean() locate in validate.php
+    $form_data = clean($form_data); // clean() is locate in validate.php
 
     // Login
     try {
